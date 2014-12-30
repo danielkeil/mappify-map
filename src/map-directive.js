@@ -70,14 +70,11 @@
 
                     controller.isReady()
                         .then(function () {
-
                             $log.debug('mappify: controller is ready');
-
                             return scope.datasource.fetchData();
                         }).then(function (data) {
 
                             $log.debug('mappify: data was fetched');
-                            $log.debug(data);
 
                             // converts return to an array
                             data = _.flatten([data]);

@@ -10,19 +10,14 @@
     <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
 
     <script src="../dist/mappify-map.js"></script>
-    <link rel="stylesheet" href="./css/example.css" />
-    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css" />
-
-    <style type="text/css">
-
-
-    </style>
+    <link rel="stylesheet" href="./css/example.css"/>
+    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
 
     <script>
         var app = angular.module('exampleApp', ['mappify']);
-        app.controller('ExampleController', [ '$scope', '$q', function($scope, $q) {
+        app.controller('ExampleController', ['$scope', '$q', function ($scope, $q) {
 
             var data = [
                 {
@@ -40,7 +35,7 @@
             ]
 
             $scope.datasource = {};
-            $scope.datasource.fetchData = function() {
+            $scope.datasource.fetchData = function () {
                 var defer = $q.defer();
                 defer.resolve(data);
                 return defer.promise;
@@ -52,7 +47,7 @@
 </head>
 <body ng-controller="ExampleController">
 <mappify id="map" datasource="datasource">
-    <mappify-marker concept="conceptA"  template-url="./template/example.tpl.html"></mappify-marker>
+    <mappify-marker concept="conceptA" template-url="./template/example.tpl.html"></mappify-marker>
 </mappify>
 </body>
 </html>

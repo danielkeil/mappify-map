@@ -69,13 +69,10 @@
                     'OPTIONAL { ?r foaf:depiction ?d }'
                 };
 
-                console.log(map4Store);
-
                 store.addMap(map4Store);
             }
 
             var factory = {};
-
             factory.getCastles = function (limit) {
                 var flow = store.classes.find().limit(limit);
                 //returns a promise
@@ -95,9 +92,7 @@
             };
 
             return factory;
-
         }
-
 
     </script>
 </head>
