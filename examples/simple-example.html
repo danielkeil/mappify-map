@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head>
+    <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+    <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+
+    <script src="../dist/mappify-map.js"></script>
+    <link rel="stylesheet" href="./css/example.css" />
+    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css" />
+
+    <style type="text/css">
+
+
+    </style>
+
+    <script>
+        var app = angular.module('exampleApp', ['mappify']);
+        app.controller('ExampleController', [ '$scope', '$q', function($scope, $q) {
+
+            var data = [
+                {
+                    "concept": "conceptA",
+                    "markers": [
+                        {
+                            "id": "http://dbpedia.org/resource/Buckingham_Old_Gaol",
+                            "name": "Buckingham Old Gaol",
+                            "latitude": 52.0005,
+                            "longitude": 0.98752,
+                            "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Buckingham_OldCountyGaol02.JPG"
+                        }
+                    ]
+                }
+            ]
+
+            $scope.datasource = {};
+            $scope.datasource.fetchData = function() {
+                var defer = $q.defer();
+                defer.resolve(data);
+                return defer.promise;
+            }
+
+        }]);
+
+    </script>
+</head>
+<body ng-controller="ExampleController">
+<mappify id="map" datasource="datasource">
+    <mappify-marker concept="conceptA"  template-url="./template/example.tpl.html"></mappify-marker>
+</mappify>
+</body>
+</html>

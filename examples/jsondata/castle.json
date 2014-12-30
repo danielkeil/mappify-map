@@ -1,0 +1,717 @@
+[
+  {
+    "concept": "conceptA",
+    "markers": [
+      {
+        "id": "http://dbpedia.org/resource/Ackland_Art_Museum",
+        "name": "Ackland Art Museum",
+        "latitude": 35.9124,
+        "longitude": -79.0544,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Ackland_Art_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Audubon_House_and_Tropical_Gardens",
+        "name": "Audubon House and Tropical Gardens",
+        "latitude": 24.5583,
+        "longitude": -81.8061,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Key_West_FH010012.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Buckingham_Old_Gaol",
+        "name": "Buckingham Old Gaol",
+        "latitude": 52.0005,
+        "longitude": 0.98752,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Buckingham_OldCountyGaol02.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Clark_County_Heritage_Center",
+        "name": "Clark County Heritage Center",
+        "latitude": 39.9237,
+        "longitude": -83.8107,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Former_municipal_building_in_Springfield,_Ohio.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Collings_Foundation",
+        "name": "Collings Foundation",
+        "latitude": 42.4033,
+        "longitude": -71.5078,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/909_just_after_take_off_-Marana_Az_2012.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Currier_Museum_of_Art",
+        "name": "Currier Museum of Art",
+        "latitude": 42.9978,
+        "longitude": -71.4558,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Currier_Museum_of_Art_·_Main_Atrium_·_20080602.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Daming_Palace",
+        "name": "Daming-Palast",
+        "latitude": 34.284,
+        "longitude": 108.966,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Reconstructed_Danfeng_Men.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Eli_Whitney_Museum",
+        "name": "Eli Whitney Museum",
+        "latitude": 41.3358,
+        "longitude": -72.9106,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Gun_Factory_on_canvas.png"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Everhart_Museum",
+        "name": "Everhart Museum",
+        "latitude": 41.4006,
+        "longitude": -75.6442,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Everhart_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Gibson_House",
+        "name": "Gibson House",
+        "latitude": 43.7696,
+        "longitude": -79.4147,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/DavidGibsonPlaque.jpg"
+      }
+    ]
+  },
+  {
+    "concept": "conceptB",
+    "markers": [
+      {
+        "id": "http://dbpedia.org/resource/Hunt-Morgan_House",
+        "name": "Hunt-Morgan House",
+        "latitude": 38.05,
+        "longitude": -84.4964,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Hunt-Morgan_House,_Lexington_Kentucky.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Israel_National_Museum_of_Science,_Technology,_and_Space",
+        "name": "Israel National Museum of Science, Technology, and Space",
+        "latitude": 32.8101,
+        "longitude": 34.9963,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/The_National_Museum_of_Science,_Technology_and_Space_(Haifa,_Israel)_-_Facade.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Jewish_Historical_Museum,_Belgrade",
+        "name": "Jewish Historical Museum, Belgrade",
+        "latitude": 44.8213,
+        "longitude": 20.4569,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Јеврејски_историјски_музеј.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Kentucky_Folk_Art_Center",
+        "name": "Kentucky Folk Art Center",
+        "latitude": 38.1817,
+        "longitude": -83.4331,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/KYMap-doton-Morehead.PNG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Lake_Placid_Winter_Olympic_Museum",
+        "name": "Lake Placid Winter Olympic Museum",
+        "latitude": 44.2841,
+        "longitude": -73.9847,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/HerbBrooksArena.jpg"
+      }
+    ]
+  },
+  {
+    "concept": "conceptC",
+    "markers": [
+      {
+        "id": "http://dbpedia.org/resource/Mitchell_House_(Thomasville,_North_Carolina)",
+        "name": "Mitchell House (Thomasville, North Carolina)",
+        "latitude": 35.8778,
+        "longitude": -80.094,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/MitchellHouse.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Local_History_(Milton,_Florida)",
+        "name": "Museum of Local History (Milton, Florida)",
+        "latitude": 30.6231,
+        "longitude": -87.0366,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Milton_Hist_Dist_Imogene01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Modern_Art,_Antwerp",
+        "name": "Museum van Hedendaagse Kunst Antwerpen",
+        "latitude": 51.2111,
+        "longitude": 4.38972,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museum_of_Modern_Art,_Antwerp.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Soviet_Occupation,_Kiev",
+        "name": "Museum of Soviet Occupation, Kiev",
+        "latitude": 50.3938,
+        "longitude": 30.5049,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Mus-sov-occ-kyiv-entrance.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Tolerance",
+        "name": "Museum der Toleranz",
+        "latitude": 34.0536,
+        "longitude": -118.402,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museum_of_Tolerance,_Los_Angeles,_March_2008.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_the_Americas_(Madrid)",
+        "name": "Museo de América",
+        "latitude": 40.4381,
+        "longitude": -3.72207,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museo_de_América_de_Madrid_-_01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_the_Risorgimento_(Milan)",
+        "name": "Museum of the Risorgimento (Milan)",
+        "latitude": 45.4722,
+        "longitude": 9.18972,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/DSC02741_Milano_-_Palazz…1775-_(Museo_del_Risorgimento)_-_Foto_Giovanni_Dall'Orto_-_20_jan_2007.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/NASA_Visitor_Center_(Wallops_Flight_Facility)",
+        "name": "NASA Visitor Center (Wallops Flight Facility)",
+        "latitude": 37.9386,
+        "longitude": -75.4574,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/NASA_Visitor_Center_at_Wallops_Flight_Facility_002_crop.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_Museum_of_Ethnology_(Netherlands)",
+        "name": "Reichsmuseum für Völkerkunde",
+        "latitude": 52.1631,
+        "longitude": 4.4825,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museum_Volkenkunde_Leiden.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/New_Zealand_Olympic_Museum",
+        "name": "New Zealand Olympic Museum",
+        "latitude": -41.2852,
+        "longitude": 174.778,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/NZ_Olympic_Museum_01.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Norton_Museum_of_Art",
+        "name": "Norton Museum of Art",
+        "latitude": 26.7008,
+        "longitude": -80.053,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/West_PB_FL_Norton_MoA01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Putnam_Museum",
+        "name": "Putnam Museum",
+        "latitude": 41.531,
+        "longitude": -90.602,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Putnam_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Queen_Victoria_Museum_and_Art_Gallery",
+        "name": "Queen Victoria Museum and Art Gallery",
+        "latitude": -41.4378,
+        "longitude": 147.134,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Queen_Victoria_Museum_and_Art_Gallery.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Robsart_Art_Works",
+        "name": "Robsart Art Works",
+        "latitude": 49.23,
+        "longitude": -109.17,
+        "pic": "http://en.wikipedia.org/wiki/Special:FilePath/Robsart_Art_Works_Studio.png"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Ross_Farm_Museum",
+        "name": "Ross Farm Museum",
+        "latitude": 44.7331,
+        "longitude": -64.4567,
+        "pic": "http://en.wikipedia.org/wiki/Special:FilePath/Rossfarmentrance.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/S%C3%A3o_Paulo_Museum_of_Modern_Art",
+        "name": "Museo de Arte Moderno de São Paulo",
+        "latitude": -23.5877,
+        "longitude": -46.6558,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museu_de_Arte_Moderna,_São_Paulo_-_Fachada.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Saint_John_Jewish_Historical_Museum",
+        "name": "Saint John Jewish Historical Museum",
+        "latitude": 45.2796,
+        "longitude": -66.0628,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Rockwood_park_loyalist_house_041.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Somerhill_Gallery",
+        "name": "Somerhill Gallery",
+        "latitude": 35.9914,
+        "longitude": -78.8996,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Somerhill_Interior_Feb2009.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Watershed_(Bristol)",
+        "name": "Watershed (Bristol)",
+        "latitude": 51.4515,
+        "longitude": -2.59802,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Watershed_Bristol_closeup.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Boca_Raton_Museum_of_Art",
+        "name": "Boca Raton Museum of Art",
+        "latitude": 26.3563,
+        "longitude": -80.0858,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Boca_Raton_FL_MoA01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Bowman's_Hill_Wildflower_Preserve",
+        "name": "Reserva de flora silvestre de Bowman´s Hill",
+        "latitude": 40.3301,
+        "longitude": -74.9406,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Bowman's_Hill_Wildflower_Preserve_-_IMG_8282.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/CFB_Esquimalt",
+        "name": "CFB Esquimalt",
+        "latitude": 48.4311,
+        "longitude": -123.432,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Cfb-esquimalt-aerial.id.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Galleria_dell'Accademia",
+        "name": "Galería de la Academia de Florencia",
+        "latitude": 43.7769,
+        "longitude": 11.2587,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Galleria_dell'accademia,_firenze_ingresso.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Le_Magasin",
+        "name": "Le Magasin",
+        "latitude": 45.1875,
+        "longitude": 5.70444,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/CNAC_-_Le_Magasin_-_Grenoble_2.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_Center_at_Five_Points",
+        "name": "Museum Center at Five Points",
+        "latitude": 35.1581,
+        "longitude": -84.8742,
+        "pic": "http://en.wikipedia.org/wiki/Special:FilePath/Museumcenter5pts.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_Motor_Museum,_Birdwood",
+        "name": "National Motor Museum, Birdwood",
+        "latitude": -34.8197,
+        "longitude": 138.954,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/National_Motor_Museum.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/New_Walk_Museum",
+        "name": "New Walk Museum",
+        "latitude": 52.6292,
+        "longitude": -1.12777,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/New_Walk_Museum_main_entrance.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Pallant_House_Gallery",
+        "name": "Pallant House Gallery",
+        "latitude": 50.8351,
+        "longitude": -0.7778,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Pallant_House_Gallery_h.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Spurlock_Museum",
+        "name": "Spurlock Museum",
+        "latitude": 40.1073,
+        "longitude": -88.2214,
+        "pic": "http://en.wikipedia.org/wiki/Special:FilePath/Spurlock_6.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/The_Magic_House,_St._Louis_Children's_Museum",
+        "name": "The Magic House, St. Louis Children's Museum",
+        "latitude": 38.5739,
+        "longitude": -90.4059,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/The_Magic_House_Logo.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Alamogordo_Museum_of_History",
+        "name": "Alamogordo Museum of History",
+        "latitude": 32.9036,
+        "longitude": -105.961,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Alamogordo_Museum_of_History_exterior.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Amon_Carter_Museum_of_American_Art",
+        "name": "Museo Amon Carter",
+        "latitude": 32.748,
+        "longitude": -97.369,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Amon_Carter_Museum_01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/AutoWorld_(museum)",
+        "name": "AutoWorld (museum)",
+        "latitude": 50.8406,
+        "longitude": 4.39278,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Autoworld_Cinquantenaire.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/The_Bakken",
+        "name": "The Bakken",
+        "latitude": 44.9381,
+        "longitude": -93.3208,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/The_Bakken_Museum_-_Medicinal_Garden_View.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Canadian_Canoe_Museum",
+        "name": "Canadian Canoe Museum",
+        "latitude": 44.2882,
+        "longitude": -78.3304,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Can_Canoe_Museum.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Huis_Doorn",
+        "name": "Haus Doorn",
+        "latitude": 52.0314,
+        "longitude": 5.3386,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/DoornCastle.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_Boerhaave",
+        "name": "Museum Boerhave",
+        "latitude": 52.1614,
+        "longitude": 4.48889,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/BoerhaaveMuseum2.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_World_War_II_Museum",
+        "name": "National World War II Museum",
+        "latitude": 29.9431,
+        "longitude": -90.0704,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Main_entrance_to_the_National_World_War_II_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Warsaw_Uprising_Museum",
+        "name": "Museum des Warschauer Aufstandes",
+        "latitude": 52.2322,
+        "longitude": 20.9808,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Replika_liberatora.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/%C3%96sterreichische_Galerie_Belvedere",
+        "name": "Galería Belvedere",
+        "latitude": 48.1914,
+        "longitude": 16.38,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Upper_Belvedere_palace_Vienna.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Brooklyn_Children's_Museum",
+        "name": "Brooklyn Children's Museum",
+        "latitude": 40.6745,
+        "longitude": -73.9439,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Brooklyn_Children's_Museum.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Government_Museum,_Chennai",
+        "name": "Government Museum, Chennai",
+        "latitude": 13.0707,
+        "longitude": 80.2573,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Madras_museum_theatre_in_October_2007.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_Museum_of_Brazil",
+        "name": "Museo Nacional de Brasil",
+        "latitude": -22.9057,
+        "longitude": -43.2261,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Fachada_do_Museu_Nacional_da_UFRJ_-_São_Cristóvão,_Rio_de_Janeiro.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Negro_Leagues_Baseball_Museum",
+        "name": "Negro Leagues Baseball Museum",
+        "latitude": 39.0914,
+        "longitude": -94.5627,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Nlbmandjazz.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Reuben_H._Fleet_Science_Center",
+        "name": "Centro de Ciencias Reuben H. Fleet",
+        "latitude": 32.7308,
+        "longitude": -117.147,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Reuben_H._Fleet_Science_Center.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/San_Diego_Air_&_Space_Museum",
+        "name": "San Diego Air & Space Museum",
+        "latitude": 32.7263,
+        "longitude": -117.154,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/San_Diego_Aerospace_Museum_Entrance.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Canadian_Harvard_Aircraft_Association",
+        "name": "Canadian Harvard Aircraft Association",
+        "latitude": 42.9237,
+        "longitude": -80.745,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Canadian_Car_&_Foundry_Co._Limited_Harvard_Mk_4_C-FWPK_05.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Akranes_Museum_Centre",
+        "name": "Akranes Museum Centre",
+        "latitude": 64.3199,
+        "longitude": -22.045,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Safnasvæðið_á_Akranesi1.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Ernesto_de_la_C%C3%A1rcova_Museum_of_Reproductions_and_Comparative_Sculpture",
+        "name": "Museo de Calcos y Escultura comparada",
+        "latitude": -34.6194,
+        "longitude": -58.3572,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/MECECarcova143.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/George_Washington_University_Art_Galleries",
+        "name": "George Washington University Art Galleries",
+        "latitude": 38.9007,
+        "longitude": -77.0463,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/WMATA_Metro_Logo.svg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Theatrical_Arts_of_Serbia",
+        "name": "Museum of Theatrical Arts of Serbia",
+        "latitude": 44.8214,
+        "longitude": 20.4586,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/MuzejPozorisneUmetnosti.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_Mississippi_River_Museum_&_Aquarium",
+        "name": "National Mississippi River Museum & Aquarium",
+        "latitude": 42.4968,
+        "longitude": -90.6613,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/National_Mississippi_River_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Pinacoteca_Eduardo_%C3%9Arculo",
+        "name": "Pinacoteca Eduardo Úrculo",
+        "latitude": 43.301,
+        "longitude": -5.685,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Pinacoteca.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Shipley_Art_Gallery",
+        "name": "Shipley Art Gallery",
+        "latitude": 54.95,
+        "longitude": -1.602,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Shipley_Art_Gallery2.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Feodosia_Money_Museum",
+        "name": "Museo del Dinero de Feodosia",
+        "latitude": 45.0305,
+        "longitude": 35.38,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Museum_of_money.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Louwman_Museum",
+        "name": "Louwman Collection",
+        "latitude": 52.0998,
+        "longitude": 4.3505,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Den_Haag_-_Louwman_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Mus%C3%A9e_Bonnat",
+        "name": "Museo Bonnat",
+        "latitude": 43.4922,
+        "longitude": -1.4722,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Bayonne_Musée_Bonnat.JPG"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Wigan_Life",
+        "name": "Museum of Wigan Life",
+        "latitude": 53.5442,
+        "longitude": -2.6297,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Taylor_Gallery_at_the_Museum_of_Wigan_Life.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Oregon_Rail_Heritage_Center",
+        "name": "Oregon Rail Heritage Center",
+        "latitude": 45.5073,
+        "longitude": -122.645,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Front_of_Oregon_Rail_Heritage_Center_with_4449_pulled_out,_Sep._2012.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/21er_Haus",
+        "name": "21er Haus",
+        "latitude": 48.1858,
+        "longitude": 16.3833,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/21er_haus1.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Gibraltar_Museum",
+        "name": "Museo de Gibraltar",
+        "latitude": 36.139,
+        "longitude": -5.3544,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Bomb_House.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Lane_Motor_Museum",
+        "name": "Lane Motor Museum",
+        "latitude": 36.1403,
+        "longitude": -86.7342,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Lane_Motor_Museum.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Leesburg_Heritage_Museum",
+        "name": "Leesburg Heritage Museum",
+        "latitude": 28.8107,
+        "longitude": -81.878,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Leesburg_FL_HSandHM_pano01.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Manor_House_Museum",
+        "name": "Manor House Museum",
+        "latitude": 53.9272,
+        "longitude": -1.82472,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Manor_001.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Treasury_of_the_Basilica_of_Saint_Servatius",
+        "name": "Treasury of the Basilica of Saint Servatius",
+        "latitude": 50.8486,
+        "longitude": 5.68722,
+        "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/1Schatkamer04.jpg"
+      },
+      {
+        "id": "http://dbpedia.org/resource/Contemporary_Museum_Baltimore",
+        "name": "Contemporary Museum",
+        "latitude": 39.2964,
+        "longitude": -76.6179,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Fenimore_Art_Museum",
+        "name": "Fenimore Art Museum",
+        "latitude": 42.7157,
+        "longitude": -74.9269,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Contemporary_Canadian_Art",
+        "name": "Museum of Contemporary Canadian Art",
+        "latitude": 43.6447,
+        "longitude": -79.417,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Museum_of_Modern_Art,_Warsaw",
+        "name": "Muzeum Sztuki Nowoczesnej w Warszawie",
+        "latitude": 52.2331,
+        "longitude": 21.0017,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/National_Museum_of_Ethnology_(Portugal)",
+        "name": "National Museum of Ethnology (Portugal)",
+        "latitude": 38.7048,
+        "longitude": -9.2085,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Southern_Exposure_(art_space)",
+        "name": "Southern Exposure (art space)",
+        "latitude": 37.768,
+        "longitude": -122.423,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Aviation_Heritage_Museum_(Western_Australia)",
+        "name": "Aviation Heritage Museum (Western Australia)",
+        "latitude": -32.0493,
+        "longitude": 115.859,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Costume_Museum_of_Canada",
+        "name": "Costume Museum of Canada",
+        "latitude": 49.9004,
+        "longitude": -97.1344,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Illinois_Natural_History_Survey",
+        "name": "Illinois Natural History Survey",
+        "latitude": 40.0929,
+        "longitude": -88.2398,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Royal_Regiment_of_Fusiliers_Museum_(Royal_Warwickshire)",
+        "name": "Royal Regiment of Fusiliers Museum (Royal Warwickshire)",
+        "latitude": 52.2832,
+        "longitude": -1.5804,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Western_New_Mexico_Aviation_Heritage_Museum",
+        "name": "Western New Mexico Aviation Heritage Museum",
+        "latitude": 35.1665,
+        "longitude": -107.898,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Oregon_Jewish_Museum",
+        "name": "Oregon Jewish Museum",
+        "latitude": 45.5294,
+        "longitude": -122.691,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Wellington_Tramway_Museum",
+        "name": "Wellington Tramway Museum",
+        "latitude": -40.9692,
+        "longitude": 174.981,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Busch%E2%80%93Reisinger_Museum",
+        "name": "Busch-Reisinger Museum",
+        "latitude": 42.3717,
+        "longitude": -71.1142,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Seven_Stories",
+        "name": "Seven Stories",
+        "latitude": 54.9747,
+        "longitude": -1.59194,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Archaeological_Museum_of_Manisa",
+        "name": "Archaeological Museum of Manisa",
+        "latitude": 38.6103,
+        "longitude": 27.4299,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Volcano_House,_Iceland",
+        "name": "Volcano House, Iceland",
+        "latitude": 64.1493,
+        "longitude": -21.9417,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Haslemere_Educational_Museum",
+        "name": "Haslemere Educational Museum",
+        "latitude": 51.09,
+        "longitude": -0.712,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Dunster_Doll_Museum",
+        "name": "Dunster Doll Museum",
+        "latitude": 51.1824,
+        "longitude": -3.4459,
+        "pic": null
+      },
+      {
+        "id": "http://dbpedia.org/resource/Thursford_Collection",
+        "name": "Thursford Collection",
+        "latitude": 52.8712,
+        "longitude": 0.9403,
+        "pic": null
+      }
+    ]
+  }
+]

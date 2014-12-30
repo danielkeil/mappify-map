@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head>
+    <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+    <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="../bower_components/jassa/jassa.js"></script>
+    <script src="../bower_components/jQuery/dist/jquery.min.js"></script>
+
+    <script src="../dist/mappify-map.js"></script>
+
+    <link rel="stylesheet" href="./css/example.css" />
+    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
+
+    <script>
+
+        angular.module('exampleApp', ['mappify'])
+                .service('SPARQLService', service)
+                .controller('DemoController', demoController);
+
+        function demoController($scope, SPARQLService) {
+            $scope.datasource = {};
+            $scope.datasource.fetchData = function () {
+                // returns a promise
+                return SPARQLService.getCastles(100);
+            };
+        }
+
+        function service() {
+            var jassa = new Jassa(Promise, $.ajax);
+            var sparql = jassa.sparql;
+            var service = jassa.service;
+            var sponate = jassa.sponate;
+
+            var sparqlService = new service.SparqlServiceHttp(
+                    'http://dbpedia.org/sparql',
+                    ['http://dbpedia.org']
+            );
+
+            var store = new sponate.StoreFacade(sparqlService);
+            var langPreference = ['es', 'de', 'en', ''];
+
+            var blc = new sparql.BestLabelConfig(langPreference);
+            var mappedConcept = sponate.MappedConceptUtils.createMappedConceptBestLabel(blc);
+
+            if (!store.hasOwnProperty('classes')) {
+
+                var map4Store = {
+                    name: 'classes',
+                    template: [
+                        {
+                            id: '?r',
+                            name: {$ref: {target: mappedConcept, attr: 'displayLabel'}},
+                            //   abstract: { $ref: { target: commentTemplate, attr: 'displayLabel' }},
+                            latitude: '?lat',
+                            longitude: '?long',
+                            pic: '?d'
+                        }
+                    ],
+                    from: '?r a dbpedia-owl:Museum .' +
+                    '?r geo:long ?long .' +
+                    '?r geo:lat ?lat .' +
+                    'OPTIONAL { ?r foaf:depiction ?d }'
+                };
+
+                console.log(map4Store);
+
+                store.addMap(map4Store);
+            }
+
+            var factory = {};
+
+            factory.getCastles = function (limit) {
+                var flow = store.classes.find().limit(limit);
+                //returns a promise
+                return flow.list().then(function (data) {
+                    // http://lodash.com/docs#pluck, extracts values from return
+                    return [{
+                        concept: 'conceptA',
+                        markers: _(data).pluck('val').first(50).value()
+                    }, {
+                        concept: 'conceptB',
+                        markers: _(data).pluck('val').rest(50).first(25).value()
+                    }, {
+                        concept: 'conceptC',
+                        markers: _(data).pluck('val').rest(50).rest(25).value()
+                    }];
+                });
+            };
+
+            return factory;
+
+        }
+
+
+    </script>
+</head>
+<body ng-controller="DemoController">
+<mappify id="map" datasource="datasource">
+    <mappify-marker concept="conceptA" template-url="./template/example.tpl.html"></mappify-marker>
+    <mappify-marker concept="conceptB" template-url="./template/example.tpl.html"></mappify-marker>
+    <mappify-marker concept="conceptC" template-url="./template/example.tpl.html"></mappify-marker>
+</mappify>
+</body>
+</html>
