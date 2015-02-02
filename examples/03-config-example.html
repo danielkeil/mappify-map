@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head>
+    <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+    <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+
+    <script src="../dist/mappify-map.js"></script>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="./css/example.css"/>
+    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
+    <style type="text/css">
+        #map {
+            min-width: 100%; min-height: 100%; position: absolute;
+        }
+    </style>
+    <script>
+        var app = angular.module('exampleApp', ['mappify']);
+        app.controller('ExampleController', ['$rootScope', '$scope', '$q', function ($rootScope, $scope, $q) {
+
+            $scope.events = [];
+
+            $rootScope.$on('mappify.map.boundsChanged', function (e, bound) {
+                $scope.events.push({name: 'mappify.map.boundsChanged'}) ;
+                console.log('mappify.map.boundsChanged')
+                console.log($scope.events);
+            });
+
+            $scope.config = {
+                popUp: {
+                    enabled: false,
+                    autoClose: true  // toggles mode -> only one popup will be active
+                },
+                mode: {
+                    select: false,
+                    info: true
+                },
+                viewCenter: {
+                    latitude:  51.5286416,
+                    longitude: -0.1015987
+                },
+                zoom: 6,
+                layers: [
+                    {
+                        layer: 'layer 1',
+                        concept: 'conceptA',
+                        // todo: add template as string
+                        'template-url': 'template/example.tpl.html',
+                        icon: {
+                            prefix: 'fa',
+                            icon: 'info',
+                            markerColor: 'green',
+                            iconColor: 'blue'
+                        }
+
+                    }
+                ]
+            };
+
+            var data = [
+                {
+                    "concept": "conceptA",
+                    "markers": [
+                        {
+                            "id": "http://dbpedia.org/resource/Buckingham_Old_Gaol",
+                            "name": "Buckingham Old Gaol",
+                            "latitude": 52.0005,
+                            "longitude": 0.98752,
+                            "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Buckingham_OldCountyGaol02.JPG"
+                        }
+                    ]
+                }
+            ]
+
+            $scope.datasource = {};
+            $scope.datasource.fetchData = function () {
+                var defer = $q.defer();
+                defer.resolve(data);
+                return defer.promise;
+            }
+
+        }]);
+
+    </script>
+</head>
+<body ng-controller="ExampleController">
+
+<mappify id="map" datasource="datasource" config="config">
+</mappify>
+
+<div class="eventbox">
+    <ul id="eventList">
+        <li ng-repeat="event in events">{{event.name}}</li>
+    </ul>
+</div>
+
+<h1>triggered events</h1>
+
+</body>
+</html>

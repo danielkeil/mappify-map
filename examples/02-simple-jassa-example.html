@@ -13,6 +13,7 @@
 
     <script src="../dist/mappify-map.js"></script>
 
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
     <link rel="stylesheet" href="./css/example.css" />
     <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
@@ -74,10 +75,24 @@
 
             var factory = {};
             factory.getCastles = function (limit) {
+
+                // @check
                 var flow = store.classes.find().limit(limit);
+
+                // classes => mongo collection
+                // getListService -> returns an list
+                // -> deco pattern / get native listService
+
+                store.classes.getListService().fetchItems(null, limit);
+
+
                 //returns a promise
                 return flow.list().then(function (data) {
                     // http://lodash.com/docs#pluck, extracts values from return
+
+                    // todo: rename from concept => source_id
+                    //  - array of sources
+                    //  - concept => sourceId
                     return [{
                         concept: 'conceptA',
                         markers: _(data).pluck('val').first(50).value()

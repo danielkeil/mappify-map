@@ -16,10 +16,23 @@
         };
 
         var zoom = 5;
-        var prefix = 'mappify.';
+        var popUpsEnabled = true;
+
+        // todo: move to separate file
+        var eventNamePrefix = 'mappify.';
         var events = {
-            markerClicked: prefix + 'markerClicked',
-            selectedMarkerCollectionChanged: prefix + 'selectedMarkerCollectionChanged'
+            markerClicked: eventNamePrefix + 'markerClicked',
+            selectedMarkerCollectionChanged: eventNamePrefix + 'selectedMarkerCollectionChanged'
+        };
+
+        /**                  **/
+        /** public functions **/
+        /**                  **/
+        var init = function(config) {
+
+            handleZoomConfiguration(config);
+            handleViewCenterConfiguration(config);
+            handlePopUpConfiguration(config);
         };
 
         /**
@@ -34,7 +47,6 @@
             if (_.isNumber(point.longitude)) {
                 viewCenter.longitude = point.longitude;
             }
-            return this;
         };
 
         /**
@@ -48,10 +60,54 @@
             return this;
         };
 
-        /** factory */
+        /**                   **/
+        /** private functions **/
+        /**                   **/
+        var handleZoomConfiguration = function(config) {
+            if (config.zoom) {
+                setZoom(config.zoom);
+            }
+        };
+
+        var handleViewCenterConfiguration = function (config) {
+
+            if (config.viewCenter) {
+                if (config.viewCenter.latitude && config.viewCenter.longitude) {
+                    setViewCenter({
+                            latitude: config.viewCenter.latitude,
+                            longitude: config.viewCenter.longitude
+                        }
+                    );
+                }
+            }
+        };
+
+        var arePopUpsEnabled = function() {
+            return popUpsEnabled;
+        };
+
+
+        var handlePopUpConfiguration = function (config) {
+
+            if (config.popUp instanceof Object && config.popUp.hasOwnProperty('enabled')) {
+
+                // we only allow boolean values
+                if(! _.isBoolean(config.popUp.enabled)) {
+                    throw 'error: config.popUp.enabled must be from type boolean';
+                }
+
+                popUpsEnabled = config.popUp.enabled;
+            }
+        };
+
+        /**                  **/
+        /** factory          **/
+        /**                  **/
         function MappifyConfiguration() {
             var factory = {
+                init: init,
                 setZoom: setZoom,
+                arePopUpsEnabled: arePopUpsEnabled,
                 setViewCenter: setViewCenter,
                 events: events
             };
@@ -67,17 +123,19 @@
             return factory;
         }
 
-        /** factory provider */
-        var provider = {
+        /**                   **/
+        /** factory provider  **/
+        /**                   **/
+        var configProvider = {
             setZoom: setZoom,
             setViewCenter: setViewCenter
         };
 
-        provider.$get = function () {
+        configProvider.$get = function () {
             return new MappifyConfiguration();
         };
 
-        return provider;
+        return configProvider;
     }
 
 })

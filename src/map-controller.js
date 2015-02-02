@@ -1,16 +1,16 @@
 (function () {
     'use strict';
 
-    angular.module('mappify.ctrl', ['mappify.markerGeneratorService', 'mappify.configurationProvider'])
+    angular.module('mappify.ctrl', ['mappify.markerGeneratorService', 'mappify.configurationProvider','mappify.elementService'])
         .controller('MappifyController', MappifyController);
 
 
-    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration) {
+    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration,  ElementService) {
 
         var ctrl = this;
 
         angular.extend(ctrl, {
-            addMarkerToMap: addMarkerToMap,
+            addElementToMap: addElementToMap,
             configTileLayer: configTileLayer,
             isReady: isReady,
             removeMarkerFromMap: removeMarkerFromMap,
@@ -22,13 +22,11 @@
             toggleMarkerMode: toggleMarkerMode
         });
 
-        // select / popup
-        var markerMode = 'popup';
+        var markerMode;
+
         var map = null;
+
         var promises = [];
-        // collection containing all markers. the markers id is used as key
-        // todo: group markers by layer support
-        var markerCollection = {};
 
         // collection containing all selected markers. the markers id is used as key
         var selectedMarkerCollection = [];
@@ -41,9 +39,6 @@
 
         var mapPromise = $q.defer();
 
-        var layerCollection = {};
-
-        var layerControl = null;
 
         angular.extend(ctrl, {});
 
@@ -61,60 +56,49 @@
             map.addLayer(ggl);
         }
 
-        function addMarkerToMap(concept, markerData) {
-            checkPreConditions();
+        /**
+         *
+         * @param concept
+         * @param elementData
+         */
+        function addElementToMap(concept, elementData) {
+
+            // append marker layout information
+            elementData.icons = MarkerGeneratorService.generateMarker(conceptIconMapping[concept]);
+
+            var popUpContent = false;
+            if (mappifyConfiguration.arePopUpsEnabled()) {
+                renderPopUpContent(concept, elementData);
+            }
+
+            ElementService.addElementToMap(map, elementData, popUpContent);
+
+            return ctrl;
+        }
+
+        function removeMarkerFromMap(markerId)
+        {
+            return ElementService.removeMarkerFromMap(markerId);
+        }
+
+
+        // todo: clean up - looks messy
+        function renderPopUpContent(concept, elementData) {
+
             checkConceptTemplateExistence(concept);
-
-            //L.marker([51.5,Math.random() * 50]).addTo(map);
-
-            console.log(concept);
-            console.log(markerData);
-
             var newScope = $scope.$new();
-            newScope.data = markerData;
+            newScope.data = elementData;
 
             var popUpContent = $compile(templateHtmlContainer[concept])(newScope);
 
-            // todo: update -> we support more icons now
-            // we currently only support font awesome icons
-
-            markerData.icons = MarkerGeneratorService.generateMarker(conceptIconMapping[concept]);
-            markerToIconMap[markerData.id] = markerData.icons;
-
-            var marker = L.marker(
-                [markerData.latitude, markerData.longitude],
-                {
-                    icon: markerData.icons.unselected
-                }
-            )
-                // because $compile returns array with one element, we have to use this notation
-                .bindPopup(popUpContent[0]);
-
-            marker.on('click', markerClicked(markerData, marker));
-
-            if (layerCollection.hasOwnProperty(concept)) {
-                marker.addTo(layerCollection[concept]);
-            } else {
-                marker.addTo(map);
-            }
-
-            markerCollection[markerData.id] = marker;
+            // because $compile returns array with one element, we have to use this notation
+            return popUpContent[0];
         }
 
         function setConceptIcon(concept, icon) {
             conceptIconMapping[concept] = icon;
         }
 
-        function removeMarkerFromMap(markerKey) {
-            if (markerCollection.hasOwnProperty(markerKey)) {
-
-                // remove marker from map
-                map.remove(markerCollection[markerKey]);
-
-                // remove marker from collection
-                delete(markerCollection[markerKey]);
-            }
-        }
 
         function setPopUpTemplateUrl(concept, templateUrl) {
 
@@ -130,20 +114,8 @@
 
         }
 
-        function setLayer(concept, layer) {
-            if (!_.isEmpty(layer)) {
-                if (layerControl === null) {
-                    layerControl = new L.control.layers();
-                    layerControl.addTo(map);
-                }
-                var newLayer = new L.LayerGroup();
-
-                newLayer.addTo(map);
-
-                layerControl.addOverlay(newLayer, layer);
-
-                layerCollection[concept] = newLayer;
-            }
+        function setLayer(source, layer) {
+            ElementService.addLayer(map, source, layer);
         }
 
         function setPopUpTemplate(concept, html) {
@@ -182,24 +154,6 @@
             }
         }
 
-        function markerClicked(markerData, marker) {
-
-            return function (event) {
-
-                if (markerMode !== 'popup') {
-                    // prevent show popup
-                    // todo: find a better way
-                    event.target.closePopup();
-
-                    toggleMarkerSelection(marker, markerData.id);
-                    triggerSelectedMarkerCollectionChangedEvent();
-                }
-
-                // todo: maybe rename / move
-                // mappify.eventMap (see scala / akka - akka in action)
-                $rootScope.$emit(mappifyConfiguration.events.markerClicked, this);
-            };
-        }
 
         function triggerSelectedMarkerCollectionChangedEvent() {
 
@@ -216,12 +170,6 @@
 
 
         function registerEvents() {
-            // todo: remove
-            //$rootScope.$on(mappifyConfiguration.events.markerClicked, function (e, data) {
-            //$log.debug('as', data);
-            //});
-
-
             // @see http://stackoverflow.com/questions/24913567/angularjs-throwing-an-event-via-emit-or-broadcast-from-directive-to-control
             map.on('load', function () {
                 $timeout(function () {
@@ -295,6 +243,7 @@
                 marker.setIcon(icons.selected);
             }
         }
+
         /* jshint ignore:end */
 
         function initMap() {

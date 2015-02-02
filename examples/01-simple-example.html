@@ -10,44 +10,52 @@
     <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
 
     <script src="../dist/mappify-map.js"></script>
+    <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css"/>
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+
     <link rel="stylesheet" href="./css/example.css"/>
+
     <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
 
     <script>
         var app = angular.module('exampleApp', ['mappify']);
-        app.controller('ExampleController', ['$scope', '$q', function ($scope, $q) {
+        app.controller('ExampleController', ['$scope', '$q','$http', function ($scope, $q, $http) {
 
-            var data = [
-                {
-                    "concept": "conceptA",
-                    "markers": [
-                        {
-                            "id": "http://dbpedia.org/resource/Buckingham_Old_Gaol",
-                            "name": "Buckingham Old Gaol",
-                            "latitude": 52.0005,
-                            "longitude": 0.98752,
-                            "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Buckingham_OldCountyGaol02.JPG"
-                        }
-                    ]
-                }
-            ]
+            var URLS = {
+                FETCH: 'jsondata/castle-tiny-set.json'
+            };
 
             $scope.datasource = {};
             $scope.datasource.fetchData = function () {
-                var defer = $q.defer();
-                defer.resolve(data);
-                return defer.promise;
+                return $http.get(URLS.FETCH).then(function(data){
+                    return data.data;
+                });
             }
 
         }]);
-
     </script>
 </head>
 <body ng-controller="ExampleController">
-<mappify id="map" datasource="datasource">
-    <mappify-marker concept="conceptA" template-url="./template/example.tpl.html"></mappify-marker>
-</mappify>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12" style="min-height: 800px;">
+            <h1>01-simple-example</h1>
+        <div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" style="min-height: 800px;">
+            <mappify id="map" datasource="datasource">
+                <mappify-marker concept="conceptA" template-url="./template/example.tpl.html"></mappify-marker>
+            </mappify>
+        </div>
+        <div class="col-md-6" style="min-height: 800px;">
+
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
