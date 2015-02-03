@@ -12,11 +12,12 @@
     <script src="../dist/mappify-map.js"></script>
 
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
-    <link rel="stylesheet" href="./css/example.css"/>
+    <link rel="stylesheet" href="./css/example-05.css"/>
     <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
     <style type="text/css">
+
         #map {
             min-width: 100%; min-height: 100%; position: absolute;
         }
@@ -33,10 +34,12 @@
                 console.log($scope.events);
             });
 
+            // toggles mode -> only one popup will be active
+            $scope.config = {};
             $scope.config = {
                 popUp: {
                     enabled: false,
-                    autoClose: true  // toggles mode -> only one popup will be active
+                    autoClose: true
                 },
                 mode: {
                     select: false,
@@ -64,16 +67,14 @@
                 ]
             };
 
+
             var data = [
                 {
-                    "concept": "conceptA",
-                    "markers": [
+                    "name": "conceptA",
+                    "items": [
                         {
-                            "id": "http://dbpedia.org/resource/Buckingham_Old_Gaol",
-                            "name": "Buckingham Old Gaol",
-                            "latitude": 52.0005,
-                            "longitude": 0.98752,
-                            "pic": "http://commons.wikimedia.org/wiki/Special:FilePath/Buckingham_OldCountyGaol02.JPG"
+                            key: '',
+                            val: ''
                         }
                     ]
                 }
@@ -92,8 +93,17 @@
 </head>
 <body ng-controller="ExampleController">
 
-<mappify id="map" key="map-001" datasource="datasource" config="config">
-</mappify>
-
+<div class="container-fluid">
+    <div class="row configRow">
+        <div class="col-xs-12 col-md-12">
+                <textarea class="configTextArea" json-box ng-model='config'></textarea>
+        </div>
+    </div>
+    <div class="row mapRow">
+        <div class="col-xs-12">
+            <mappify id="map" key="map-001" datasource="datasource" config="config"></mappify>
+        </div>
+    </div>
+</div>
 </body>
 </html>

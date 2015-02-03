@@ -65,6 +65,7 @@
             element.addTo(map);
 
             // to be able to remove them later it's necessary to store the element outside the map
+            // todo: should use key
             elementCollection[elementData.id] = element;
         }
 

@@ -30,6 +30,10 @@
         /**                  **/
         var init = function(config) {
 
+            if (! _.isObject(config)) {
+                return true;
+            }
+
             handleZoomConfiguration(config);
             handleViewCenterConfiguration(config);
             handlePopUpConfiguration(config);

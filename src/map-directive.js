@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('mappify.directive', ['mappify.configurationProvider','mappify.ctrl'])
+    angular.module('mappify.directive', ['mappify.configurationProvider', 'mappify.ctrl', 'mappify.jsonBoxDirective'])
         .directive('mappify', mappify);
 
     function mappify($timeout, $log, mappifyConfiguration) {
@@ -21,6 +21,13 @@
                     populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config);
                     handleLayerConfiguration(scope, controller);
                     applyConfigToController(mappifyConfiguration, controller);
+
+                    scope.$watch('config', function() {
+                            populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config)
+                            applyConfigToController(mappifyConfiguration, controller);
+                            $log.debug('config - changed')}
+                    );
+
                 },
                 post: function (scope, elem, attrs, controller) {
                     log('post link');
@@ -35,36 +42,91 @@
          * @param controller
          * @param scope
          */
-        function chainPromiseToTheControllerIsReadyPromise (controller, scope) {
+        function chainPromiseToTheControllerIsReadyPromise(controller, scope) {
 
-            controller
-                .isReady()
+            // todo: add one promise per source and fetch them separately
+            // $q.when(blueBirde).then( ... )
+
+
+            Promise.resolve(controller
+                .isReady())
+
                 .then(function () {
                     log('controller is ready');
-                    return scope.datasource.fetchData();
-                })
+
+                    var p =  handleFetchDataPromiseCreation(scope);
+
+                    console.log(p);
+
+                    return p;
+                }, function(e) {console.log(e)})
                 .then(function (data) {
+
                     log('data was fetched');
+
+                    console.log('askjdhfkjhsdfjkhsdjkhdfkjdshfkjdhsfkjhsdkfjhskdhf');
+                    $log.debug(data);
+
+                    var promise  = {};
+
                     addFetchedDataToMap(controller, data);
                 });
+        }
+
+        function handleFetchDataPromiseCreation(scope) {
+
+            if (! scope.hasOwnProperty('datasource')) {
+                throw new Error('no datasource defined');
+            }
+
+            if (_.isArray(scope.datasource)) {
+                return createRequestMultiplePromises(scope);
+            } else {
+                return createRequestSinglePromise()
+            }
+        }
+
+        function createRequestSinglePromise(scope) {
+            return scope.datasource.fetchData();
+        }
+
+        // update (datasource, bound);
+        function createRequestMultiplePromises(scope) {
+            var map = _.map(scope.datasource, function (singleSource) {
+
+                // todo: move to proper place
+                var bounds = new jassa.geo.Bounds(0,0, 120, 120);
+
+
+                var r =  singleSource.fetchData(bounds);
+                r = Promise.resolve(r);
+
+                console.log(r);
+
+                return r;
+                }
+            )
+
+            return jassa.util.PromiseUtils.all(map);
         }
 
         /**
          * @param controller
          * @param fetchedData
          */
-        function addFetchedDataToMap (controller, fetchedData) {
+        function addFetchedDataToMap(controller, fetchedData) {
 
             // converts fetchedData to an array
             fetchedData = _.flatten([fetchedData]);
 
+            console.log(fetchedData);
+
             $timeout(function () {
                 angular.forEach(fetchedData, function (concept) {
 
-
                     // todo: rename markers
-                    if (! concept.hasOwnProperty('markers')) {
-                        throw 'mappify-data-error: data missing property markers on concept'
+                    if (!concept.hasOwnProperty('markers')) {
+                        throw new Error('mappify-data-error: data missing property markers on concept');
                     }
 
                     angular.forEach(concept.markers, function (element) {
@@ -74,8 +136,7 @@
             });
         };
 
-        function applyConfigToController(mappifyConfiguration, controller)
-        {
+        function applyConfigToController(mappifyConfiguration, controller) {
             controller.setView(mappifyConfiguration.getView());
             controller.configTileLayer();
         }
@@ -83,7 +144,7 @@
         function handleLayerConfiguration(scope, controller) {
 
             if (scope.config && scope.config.layers && scope.config.layers instanceof Array) {
-                _.forEach(scope.config.layers, function(layer) {
+                _.forEach(scope.config.layers, function (layer) {
                     handleLayerSingleConfiguration(layer, controller)
                 });
             }
@@ -109,9 +170,7 @@
             mappifyConfiguration.init(config);
         }
 
-
-        function log(message, prefix)
-        {
+        function log(message, prefix) {
             prefix = prefix || 'mappify';
             $log.debug(prefix + ': ' + message)
         }

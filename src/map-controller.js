@@ -5,7 +5,7 @@
         .controller('MappifyController', MappifyController);
 
 
-    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration,  ElementService) {
+    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration, ElementService) {
 
         var ctrl = this;
 
@@ -46,6 +46,11 @@
 
         /* PUBLIC */
         function setView(view) {
+
+            $log.debug('MappifyController: called setView');
+            $log.debug(view);
+
+
             map.setView(view.center, view.zoom);
         }
 
@@ -133,7 +138,6 @@
             });
         }
 
-
         /* PRIVATE */
 
         // all map controller methods should call this method to to verify preconditions
@@ -154,12 +158,9 @@
             }
         }
 
-
         function triggerSelectedMarkerCollectionChangedEvent() {
 
-            // @see http://stackoverflow.com/questions/24913567/angularjs-throwing-an-event-via-emit-or-broadcast-from-directive-to-control
             // @notice replaced scope.$apply with $timeout
-
             $timeout(function () {
                 $rootScope.$emit(
                     mappifyConfiguration.events.selectedMarkerCollectionChanged,

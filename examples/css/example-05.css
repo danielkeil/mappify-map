@@ -1,0 +1,21 @@
+body {
+    margin: 0px;
+}
+
+html, body, .container-fluid {
+    height:100%
+}
+.configRow {
+    height: 50%;
+    background-color: #0078A8;
+}
+
+.configTextArea {
+    height: 50vh;
+    width: 100%;
+}
+
+.mapRow {
+    height: 80%;
+    background-color: #398439;
+}

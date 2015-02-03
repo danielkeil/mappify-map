@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html ng-app="exampleApp">
+<head>
+    <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="../bower_components/bluebird/js/browser/bluebird.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../bower_components/leaflet-plugins/layer/tile/Google.js"></script>
+    <script src="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="../bower_components/jassa/jassa.js"></script>
+    <script src="../bower_components/jQuery/dist/jquery.min.js"></script>
+
+    <script src="../dist/mappify-map.js"></script>
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+    <link rel="stylesheet" href="./css/example.css" />
+    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="../bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.min.css"/>
+
+    <script>
+
+        // global jassa object
+        jassa = new Jassa(Promise, function() {
+            var jqXHR = $.ajax.apply(this, arguments);
+
+            // todo: move to util method
+            //  - if no second argument is passed use this as default
+
+            // r short form for inline result
+            var r = Promise.resolve(jqXHR)
+                    .cancellable()
+                    .catch(Promise.TimeoutError, Promise.CancellationError, function(e) {
+                        //console.log('CANCELLED REQUEST');
+                        jqXHR.abort();
+                        throw e;
+                    });
+            return r;
+        });
+
+        angular.module('exampleApp', ['mappify'])
+                .service('SPARQLService', service)
+                .controller('ExampleController', exampleController);
+
+        function exampleController($scope, SPARQLService) {
+
+            var rdf = jassa.rdf;
+            var sparql = jassa.sparql;
+            var service = jassa.service;
+            var sponate = jassa.sponate;
+            var facete = jassa.facete;
+            var util = jassa.util;
+            var geo = jassa.geo;
+
+            // Different factories
+            var geoMapFactoryVirt = geo.GeoMapFactoryUtils.createWktMapFactory('http://www.w3.org/2003/01/geo/wgs84_pos#geometry', 'bif:st_intersects', 'bif:st_geomFromText');
+            var geoMapFactoryAsWktVirt = geo.GeoMapFactoryUtils.createWktMapFactory('http://www.opengis.net/ont/geosparql#asWKT', 'bif:st_intersects', 'bif:st_geomFromText');
+            var geoMapFactoryWgs =  geo.GeoMapFactoryUtils.wgs84MapFactory;
+
+
+            var createSparqlService = function(url, graphUris) {
+                var result = service.SparqlServiceBuilder.http(url, graphUris, {type: 'POST'})
+                        .cache().virtFix().paginate(1000).pageExpand(100).create();
+                return result;
+            };
+
+            var createMapDataSource = function(sparqlService, geoMapFactory, concept, fillColor, moreAttrs) {
+
+                var attrs = {};
+
+                var result = geo.GeoDataSourceUtils.createGeoDataSourceLabels(sparqlService, geoMapFactory, concept, attrs);
+                return result;
+            }
+
+
+            console.log('controller');
+
+
+             var sparqlServiceA = createSparqlService('http://akswnc3.informatik.uni-leipzig.de/data/dbpedia/sparql', ['http://dbpedia.org']);
+             var sparqlServiceB = createSparqlService('http://linkedgeodata.org/sparql', ['http://linkedgeodata.org']);
+
+             var conceptA = sparql.ConceptUtils.createTypeConcept('http://dbpedia.org/ontology/University');
+             var conceptB = sparql.ConceptUtils.createTypeConcept('http://linkedgeodata.org/ontology/Airport');
+
+             $scope.datasources = [
+                createMapDataSource(sparqlServiceA, geoMapFactoryVirt, conceptA, '#CC0020'),
+                createMapDataSource(sparqlServiceB, geoMapFactoryWgs, conceptB, '#2000CC')
+             ];
+
+             console.log($scope.datasources);
+
+        }
+
+
+
+
+        /*
+
+        var geoMapFactoryVirt = geo.GeoMapFactoryUtils.createWktMapFactory('http://www.w3.org/2003/01/geo/wgs84_pos#geometry', 'bif:st_intersects', 'bif:st_geomFromText');
+        var geoMapFactoryAsWktVirt = geo.GeoMapFactoryUtils.createWktMapFactory('http://www.opengis.net/ont/geosparql#asWKT', 'bif:st_intersects', 'bif:st_geomFromText');
+        var geoMapFactoryWgs =  geo.GeoMapFactoryUtils.wgs84MapFactory;
+
+
+
+
+
+        */
+
+        function service() {
+            console.log('service: called');
+        }
+
+    </script>
+</head>
+<body ng-controller="ExampleController">
+<div class="container-fluid">
+    <div class="row mapRow">
+        <div class="col-xs-12">
+            <mappify id="map" datasource="datasources"></mappify>
+        </div>
+    </div>
+</div>
+</body>
+</html>
