@@ -21,4 +21,8 @@
 - datasource
    - schau nach ob es ohne eine boundingBox
 
+- Usability
+
+ - zoomClusterBounds => fallback falls die daten nicht richtig aufbearbeitet sind
+ -
 

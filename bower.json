@@ -12,8 +12,10 @@
     "lodash": "~2.4.1",
     "leaflet": "0.7.x",
     "leaflet-plugins": "~1.2.0",
-    "jQuery": "~2.1.1"
-
+    "Leaflet.awesome-markers": "~2.0",
+    "jQuery": "~2.1.1",
+    "terraformer": "~1.0.4",
+    "terraformer-wkt-parser": "~1.0.0"
   },
   "devDependencies": {
     "bootstrap": "~3.3.1",

@@ -1,7 +1,9 @@
 'use strict';
 
-var gulp  = require('gulp');
-var watch2 = require('gulp-watch');
+var gulp   = require('gulp'),
+    watch  = require('gulp-watch'),
+    server = require( 'gulp-develop-server' );
+
 
 // lazy load all gulp plugins
 var $ = require('gulp-load-plugins')();
@@ -26,4 +28,5 @@ gulp.task('watch',function(){
 });
 
 
-gulp.task('dev', ['build','watch'])
+gulp.task('dev', ['build', 'watch'])
+

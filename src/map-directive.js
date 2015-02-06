@@ -22,6 +22,7 @@
                     handleLayerConfiguration(scope, controller);
                     applyConfigToController(mappifyConfiguration, controller);
 
+                    // todo move to separate method
                     scope.$watch('config', function() {
                             populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config)
                             applyConfigToController(mappifyConfiguration, controller);
@@ -31,6 +32,7 @@
                 },
                 post: function (scope, elem, attrs, controller) {
                     log('post link');
+
                     chainPromiseToTheControllerIsReadyPromise(controller, scope);
                 }
             }
@@ -44,30 +46,24 @@
          */
         function chainPromiseToTheControllerIsReadyPromise(controller, scope) {
 
-            // todo: add one promise per source and fetch them separately
             // $q.when(blueBirde).then( ... )
-
 
             Promise.resolve(controller
                 .isReady())
-
                 .then(function () {
+
+                    var mapBounds = controller.getMap().getBounds();
+                    jassa.geo.Bounds(mapBounds.getWest(),mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
+
+
                     log('controller is ready');
 
                     var p =  handleFetchDataPromiseCreation(scope);
-
-                    console.log(p);
-
                     return p;
                 }, function(e) {console.log(e)})
                 .then(function (data) {
 
                     log('data was fetched');
-
-                    console.log('askjdhfkjhsdfjkhsdjkhdfkjdshfkjdhsfkjhsdkfjhskdhf');
-                    $log.debug(data);
-
-                    var promise  = {};
 
                     addFetchedDataToMap(controller, data);
                 });
@@ -80,22 +76,22 @@
             }
 
             if (_.isArray(scope.datasource)) {
-                return createRequestMultiplePromises(scope);
+                return createMultipleRequestPromises(scope);
             } else {
-                return createRequestSinglePromise()
+                return createSingleRequestPromise()
             }
         }
 
-        function createRequestSinglePromise(scope) {
+        function createSingleRequestPromise(scope) {
             return scope.datasource.fetchData();
         }
 
-        // update (datasource, bound);
-        function createRequestMultiplePromises(scope) {
+        // todo: update (datasource, bound);
+        function createMultipleRequestPromises(scope) {
             var map = _.map(scope.datasource, function (singleSource) {
 
                 // todo: move to proper place
-                var bounds = new jassa.geo.Bounds(0,0, 120, 120);
+                var bounds = new jassa.geo.Bounds(0,0, 20, 20);
 
 
                 var r =  singleSource.fetchData(bounds);
@@ -110,28 +106,64 @@
             return jassa.util.PromiseUtils.all(map);
         }
 
+        // @see: http://jsperf.com/23293323
+        function wktCoordinatesToLatLong(polygon) {
+            return _.map(polygon[0], function(point) { return [point[1], point[0]]});
+        }
+
+        // todo: better function name
+        function processItem(item) {
+            var data = {};
+
+            if (item.hasOwnProperty('key') && item.key.hasOwnProperty('uri')) {
+                data.id = item.key.uri;
+            }
+
+            if (item.hasOwnProperty('val') && item.val.hasOwnProperty('wkt')) {
+                // todo: check parsing error case
+                var wktElement = Terraformer.WKT.parse(item.val.wkt);
+
+                if (wktElement.type === 'Point') {
+                    data.type = 'Point';
+                    data.latitude  = wktElement.coordinates[1];
+                    data.longitude = wktElement.coordinates[0];
+                }
+
+                if (wktElement.type === 'Polygon') {
+                    data.polygon = wktCoordinatesToLatLong(wktElement.coordinates);
+                }
+
+                return data;
+            }
+
+            return [];
+        }
+
         /**
          * @param controller
          * @param fetchedData
          */
         function addFetchedDataToMap(controller, fetchedData) {
 
-            // converts fetchedData to an array
-            fetchedData = _.flatten([fetchedData]);
-
-            console.log(fetchedData);
-
             $timeout(function () {
-                angular.forEach(fetchedData, function (concept) {
+                angular.forEach(fetchedData, function (source) {
 
-                    // todo: rename markers
-                    if (!concept.hasOwnProperty('markers')) {
-                        throw new Error('mappify-data-error: data missing property markers on concept');
-                    }
+                    var dataSet = [];
 
-                    angular.forEach(concept.markers, function (element) {
-                        controller.addElementToMap(concept.concept, element);
+                    _.each(source, function (item) {
+
+                        if (item.val.hasOwnProperty('zoomClusterBounds')) {
+                        //console.log(item);
+                        }
+
+                        dataSet.push(processItem(item))
                     });
+
+                    angular.forEach(dataSet, function (element) {
+                        controller.addElementToMap(source, element);
+                    });
+
+
                 });
             });
         };

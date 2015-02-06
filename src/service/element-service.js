@@ -18,11 +18,14 @@
 
         var layerControl = null;
 
+
+
         function createElement(elementData) {
             if (elementData.hasOwnProperty('polygon')) {
                 return L.polygon(elementData.polygon)
             } else {
                 return L.marker(
+
                     [elementData.latitude, elementData.longitude]
                 );
             }
@@ -49,7 +52,6 @@
         }
 
         // public functions
-
         function addElementToMap(map, elementData, popUpContent) {
 
             // create element - could be an point (marker) or polygon

@@ -11,6 +11,7 @@
 
         angular.extend(ctrl, {
             addElementToMap: addElementToMap,
+            getMap: getMap,
             configTileLayer: configTileLayer,
             isReady: isReady,
             removeMarkerFromMap: removeMarkerFromMap,
@@ -61,19 +62,24 @@
             map.addLayer(ggl);
         }
 
+        function getMap()
+        {
+            return map;
+        }
+
         /**
          *
-         * @param concept
+         * @param source
          * @param elementData
          */
-        function addElementToMap(concept, elementData) {
+        function addElementToMap(source, elementData) {
 
             // append marker layout information
-            elementData.icons = MarkerGeneratorService.generateMarker(conceptIconMapping[concept]);
+            elementData.icons = MarkerGeneratorService.generateMarker(conceptIconMapping[source]);
 
             var popUpContent = false;
             if (mappifyConfiguration.arePopUpsEnabled()) {
-                renderPopUpContent(concept, elementData);
+                //renderPopUpContent(concept, elementData);
             }
 
             ElementService.addElementToMap(map, elementData, popUpContent);
