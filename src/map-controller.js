@@ -40,7 +40,6 @@
 
         var mapPromise = $q.defer();
 
-
         angular.extend(ctrl, {});
 
         initMap();
@@ -185,15 +184,34 @@
             });
 
             map.on('moveend', function () {
+                // process internally
+                updateBoundingBox(map.getBounds());
+
+                // emit global / external event
                 $timeout(function () {
                     $rootScope.$emit('mappify.map.boundsChanged', map.getBounds());
                 });
+
             });
+
             map.on('toggleMode', function () {
                 toggleMarkerMode();
             });
 
             map.on('boxSelect', handleBoxSelectEvent);
+
+            // todo: remove late - testing function
+            function onMapClick(e) {
+                console.log("You clicked the map at " + e.latlng.toString())
+            }
+
+            map.on('click', onMapClick);
+
+        }
+
+        function updateBoundingBox(bounds) {
+
+            var x = new jassa.geo.Bounds(bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth());
         }
 
         function handleBoxSelectEvent(event) {

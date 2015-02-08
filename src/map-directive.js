@@ -53,48 +53,45 @@
                 .then(function () {
 
                     var mapBounds = controller.getMap().getBounds();
-                    jassa.geo.Bounds(mapBounds.getWest(),mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
-
+                    var bounds = new jassa.geo.Bounds(mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
+                    console.log(bounds);
 
                     log('controller is ready');
 
-                    var p =  handleFetchDataPromiseCreation(scope);
+                    // todo: bounds must be independent from jassa bounds
+                    var p =  handleFetchDataPromiseCreation(scope, bounds);
                     return p;
                 }, function(e) {console.log(e)})
                 .then(function (data) {
 
                     log('data was fetched');
-
                     addFetchedDataToMap(controller, data);
                 });
         }
 
-        function handleFetchDataPromiseCreation(scope) {
+        function handleFetchDataPromiseCreation(scope, bounds) {
 
             if (! scope.hasOwnProperty('datasource')) {
                 throw new Error('no datasource defined');
             }
 
             if (_.isArray(scope.datasource)) {
-                return createMultipleRequestPromises(scope);
+                return createMultipleRequestPromises(scope.datasource, bounds);
             } else {
-                return createSingleRequestPromise()
+                return createSingleRequestPromise(scope.datasource, bounds)
             }
         }
 
-        function createSingleRequestPromise(scope) {
-            return scope.datasource.fetchData();
+        function createSingleRequestPromise(datasource, bounds) {
+            return datasource.fetchData(bounds);
         }
 
         // todo: update (datasource, bound);
-        function createMultipleRequestPromises(scope) {
-            var map = _.map(scope.datasource, function (singleSource) {
-
-                // todo: move to proper place
-                var bounds = new jassa.geo.Bounds(0,0, 20, 20);
+        function createMultipleRequestPromises(datasource, bounds) {
+            var map = _.map(datasource, function (singleSource) {
 
 
-                var r =  singleSource.fetchData(bounds);
+                var r = singleSource.fetchData(bounds);
                 r = Promise.resolve(r);
 
                 console.log(r);
@@ -145,13 +142,20 @@
          */
         function addFetchedDataToMap(controller, fetchedData) {
 
+            $log.debug('number of data sources: ' + fetchedData.length);
+
+            _.each(fetchedData, function (source, index) {
+                $log.debug('number elements in source ' + index + ':' + fetchedData[index].length);
+            });
+
+
             $timeout(function () {
                 angular.forEach(fetchedData, function (source) {
 
                     var dataSet = [];
 
                     _.each(source, function (item) {
-
+                        // todo: clean up zoomClusterBounds -> are handle by  processItem  log('data was fetched');
                         if (item.val.hasOwnProperty('zoomClusterBounds')) {
                         //console.log(item);
                         }
