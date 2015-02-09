@@ -18,14 +18,19 @@
 
         var layerControl = null;
 
-
-
         function createElement(elementData) {
-            if (elementData.hasOwnProperty('polygon')) {
+
+            if (! elementData.hasOwnProperty('type')) {
+                throw new Error('no type found ')
+            }
+
+            if (elementData.type.toLowerCase() === 'polygon') {
                 return L.polygon(elementData.polygon)
             } else {
-                return L.marker(
 
+                console.log(elementData);
+
+                return L.marker(
                     [elementData.latitude, elementData.longitude]
                 );
             }
@@ -34,13 +39,10 @@
         function elementClicked(markerData) {
 
             return function (event) {
-
                 console.log(markerData);
-
                 $rootScope.$emit('marker clicked', markerData);
             };
         }
-
 
         function handlePopUp(element, popUpContent) {
             if (false === popUpContent) {
@@ -48,13 +50,14 @@
             }
 
             element.bindPopup(popUpContent);
-
         }
 
         // public functions
         function addElementToMap(map, elementData, popUpContent) {
 
-            // create element - could be an point (marker) or polygon
+            console.log(map);
+
+             // create element - could be an point (marker) or polygon
             var element = createElement(elementData);
 
             // popup handling - append to popUpContent (if present) as popUp to the element
@@ -104,7 +107,6 @@
                 layerControl = new L.control.layers();
                 layerControl.addTo(map);
             }
-
         }
 
         // public - api

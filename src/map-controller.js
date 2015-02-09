@@ -1,16 +1,21 @@
 (function () {
     'use strict';
 
-    angular.module('mappify.ctrl', ['mappify.markerGeneratorService', 'mappify.configurationProvider','mappify.elementService'])
+    angular.module('mappify.ctrl', [
+            'mappify.markerGeneratorService',
+            'mappify.configurationProvider',
+            'mappify.elementService',
+            'mappify.dataService'
+        ])
         .controller('MappifyController', MappifyController);
 
 
-    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration, ElementService) {
+    function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration, ElementService, DataService) {
 
         var ctrl = this;
 
         angular.extend(ctrl, {
-            addElementToMap: addElementToMap,
+            //addElementToMap: addElementToMap,
             getMap: getMap,
             configTileLayer: configTileLayer,
             isReady: isReady,
@@ -20,7 +25,8 @@
             setPopUpTemplate: setPopUpTemplate,
             setPopUpTemplateUrl: setPopUpTemplateUrl,
             setView: setView,
-            toggleMarkerMode: toggleMarkerMode
+            toggleMarkerMode: toggleMarkerMode,
+            chainPromiseToTheControllerIsReadyPromise: chainPromiseToTheControllerIsReadyPromise
         });
 
         var markerMode;
@@ -44,6 +50,36 @@
 
         initMap();
 
+        /** data fetching start **/
+        /**
+         * we add fetchData and dataWasFetchedFunction to the promise chain
+         *
+         * @param scope
+         */
+        function chainPromiseToTheControllerIsReadyPromise(scope) {
+
+            // $q.when(bluebirdPromise).then( ... )
+
+            Promise
+                .resolve(isReady())
+                .then(function () {
+
+                    // bounding box mapping
+                    // should be configurable
+                    // todo implement an mapBoundMapper or boundsTransFormerService
+                    var mapBounds = ctrl.getMap().getBounds();
+                    var bounds = new jassa.geo.Bounds(mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
+
+                    // todo: bounds must be independent from jassa bounds
+
+                    var p =  DataService.handleFetchDataPromiseCreation(map, scope, bounds);
+                    return p;
+                }, function(e) {console.log(e)});
+        }
+
+        /** data fetching end **/
+
+
         /* PUBLIC */
         function setView(view) {
 
@@ -64,26 +100,6 @@
         function getMap()
         {
             return map;
-        }
-
-        /**
-         *
-         * @param source
-         * @param elementData
-         */
-        function addElementToMap(source, elementData) {
-
-            // append marker layout information
-            elementData.icons = MarkerGeneratorService.generateMarker(conceptIconMapping[source]);
-
-            var popUpContent = false;
-            if (mappifyConfiguration.arePopUpsEnabled()) {
-                //renderPopUpContent(concept, elementData);
-            }
-
-            ElementService.addElementToMap(map, elementData, popUpContent);
-
-            return ctrl;
         }
 
         function removeMarkerFromMap(markerId)
