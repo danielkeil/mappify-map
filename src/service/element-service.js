@@ -24,11 +24,16 @@
                 throw new Error('no type found ')
             }
 
-            if (elementData.type.toLowerCase() === 'polygon') {
-                return L.polygon(elementData.polygon)
-            } else {
+            // todo use switch
 
-                console.log(elementData);
+            if (elementData.type.toLowerCase() !== 'point') {
+                //console.log(elementData.type);
+                //console.log(elementData);
+            }
+
+            if (elementData.type.toLowerCase() === 'polygon') {
+                return L.polygon(elementData.coordinates)
+            } else {
 
                 return L.marker(
                     [elementData.latitude, elementData.longitude]
@@ -39,7 +44,8 @@
         function elementClicked(markerData) {
 
             return function (event) {
-                console.log(markerData);
+                console.log('ElementService::elementClicked - ' + markerData);
+
                 $rootScope.$emit('marker clicked', markerData);
             };
         }
@@ -55,34 +61,48 @@
         // public functions
         function addElementToMap(map, elementData, popUpContent) {
 
-            console.log(map);
-
              // create element - could be an point (marker) or polygon
             var element = createElement(elementData);
 
             // popup handling - append to popUpContent (if present) as popUp to the element
             handlePopUp(element, popUpContent);
 
-            // register events
-            element.on('click', elementClicked(elementData) );
 
-            // add element to map
+           // add element to map
             element.addTo(map);
+
+            // register events
+            element.on('click', function() {map.removeLayer(element)} );
 
             // to be able to remove them later it's necessary to store the element outside the map
             // todo: should use key
             elementCollection[elementData.id] = element;
         }
 
-        function removeElementFormMap(elementKey) {
+        function removeElementFormMap(map, elementKey) {
+
             if (elementCollection.hasOwnProperty(elementKey)) {
 
                 // remove element from map
-                map.remove(elementCollection[elementKey]);
+                try {
+                    map.removeLayer(elementCollection[elementKey]);
+                    console.log('removeAllElementsFromMap' + elementKey);
+
+                } catch (error){
+                    console.log(error);
+                    console.log(elementCollection[elementKey]);
+                }
 
                 // remove element from collection
                 delete(elementCollection[elementKey]);
             }
+        }
+
+        function removeAllElementsFromMap(map)
+        {
+            _.forOwn(elementCollection, function(element, key) {
+                removeElementFormMap(map, key)
+            });
         }
 
         function addLayer(map, source, layer)
@@ -112,8 +132,9 @@
         // public - api
         return {
             addElementToMap: addElementToMap,
+            addLayer: addLayer,
             removeElementFormMap: removeElementFormMap,
-            addLayer: addLayer
+            removeAllElementsFromMap: removeAllElementsFromMap
         };
 
     }

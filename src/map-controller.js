@@ -16,8 +16,9 @@
 
         angular.extend(ctrl, {
             //addElementToMap: addElementToMap,
-            getMap: getMap,
             configTileLayer: configTileLayer,
+            getMap: getMap,
+            fetchDataFormDataSources: fetchDataFormDataSources,
             isReady: isReady,
             removeMarkerFromMap: removeMarkerFromMap,
             setConceptIcon: setConceptIcon,
@@ -25,8 +26,7 @@
             setPopUpTemplate: setPopUpTemplate,
             setPopUpTemplateUrl: setPopUpTemplateUrl,
             setView: setView,
-            toggleMarkerMode: toggleMarkerMode,
-            chainPromiseToTheControllerIsReadyPromise: chainPromiseToTheControllerIsReadyPromise
+            toggleMarkerMode: toggleMarkerMode
         });
 
         var markerMode;
@@ -46,6 +46,8 @@
 
         var mapPromise = $q.defer();
 
+        var scope;
+
         angular.extend(ctrl, {});
 
         initMap();
@@ -54,11 +56,15 @@
         /**
          * we add fetchData and dataWasFetchedFunction to the promise chain
          *
-         * @param scope
+         * @param passedScope
          */
-        function chainPromiseToTheControllerIsReadyPromise(scope) {
+        function fetchDataFormDataSources(passedScope) {
+
+            scope = passedScope;
 
             // $q.when(bluebirdPromise).then( ... )
+
+            $log.debug('called - MappifyController::fetchDataFormDataSources');
 
             Promise
                 .resolve(isReady())
@@ -72,7 +78,7 @@
 
                     // todo: bounds must be independent from jassa bounds
 
-                    var p =  DataService.handleFetchDataPromiseCreation(map, scope, bounds);
+                    var p =  DataService.fetchDataFormDataSources(map, scope, bounds);
                     return p;
                 }, function(e) {console.log(e)});
         }
@@ -201,7 +207,7 @@
 
             map.on('moveend', function () {
                 // process internally
-                updateBoundingBox(map.getBounds());
+                fetchDataFormDataSources(scope);
 
                 // emit global / external event
                 $timeout(function () {

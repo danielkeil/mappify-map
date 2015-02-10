@@ -16,7 +16,7 @@
             service.map = map;
         };
 
-        function handleFetchDataPromiseCreation(map, scope, bounds) {
+        function fetchDataFormDataSources(map, scope, bounds) {
 
             setMap(map);
 
@@ -41,6 +41,10 @@
 
                             data = processFetchedDataToMap(data);
 
+
+                            ElementService.removeAllElementsFromMap(service.map);
+
+
                             _.forEach(data, function (element) {
                                 ElementService.addElementToMap(service.map, element);
                             })
@@ -54,7 +58,7 @@
         }
 
         // @see: http://jsperf.com/23293323
-        function wktCoordinatesToLatLong(polygon) {
+        function wktCoordinatesToLatLng(polygon) {
             return _.map(polygon[0], function (point) {
                 return [point[1], point[0]]
             });
@@ -76,14 +80,17 @@
                     data.type = 'Point';
                     data.latitude = wktElement.coordinates[1];
                     data.longitude = wktElement.coordinates[0];
-                }
-
-                if (wktElement.type === 'Polygon') {
-                    data.polygon = wktCoordinatesToLatLong(wktElement.coordinates);
+                } else if (wktElement.type === 'Polygon') {
+                    data.type = 'Polygon';
+                    data.coordinates = wktCoordinatesToLatLng(wktElement.coordinates);
+                } else {
+                    console.log(data);
                 }
 
                 return data;
             }
+
+
 
             return [];
         }
@@ -111,8 +118,7 @@
 
         // public - api
         return {
-            handleFetchDataPromiseCreation: handleFetchDataPromiseCreation,
-            processItem: processItem
+            fetchDataFormDataSources: fetchDataFormDataSources
         };
 
     }

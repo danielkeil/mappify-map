@@ -33,7 +33,7 @@
                 post: function (scope, elem, attrs, controller) {
                     log('post link');
 
-                    controller.chainPromiseToTheControllerIsReadyPromise(scope);
+                    controller.fetchDataFormDataSources(scope);
                 }
             }
         };

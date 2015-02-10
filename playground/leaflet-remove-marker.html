@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Quick Start Guide Example</title>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+
+
+<body>
+<div id="map" style="width: 100px; min-height: 100px"></div>
+<div id="map2" style="width: 100px; min-height: 100px"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/0.5.6/chance.js"></script>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script>
+
+    var setupMap = function (domNodeId) {
+        var map = L.map(domNodeId).setView([0, 0], 3);
+
+        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            id: 'examples.map-i875mjb7'
+        }).addTo(map);
+
+        return map;
+    }
+
+    var createMarkerTestData = function (numberOfMarkers) {
+
+        var chance = new Chance();
+
+        return Array.apply(null, new Array(numberOfMarkers)).map(function () {
+            return [chance.latitude(), chance.longitude()];
+        });
+
+    }
+
+
+    var createMarkerFormDataAndAppendTo = function (target, markerDataSet) {
+
+        var markerStore = [];
+
+        markerDataSet.forEach(function (data) {
+            markerStore.push(createAndAppendMarkerTo(target, data));
+        })
+
+        return markerStore;
+    }
+
+
+
+    var removeMarkerAtOnce = function (markerData, map) {
+
+        var markerStore = [];
+
+        markerData.forEach(function (data) {
+
+        })
+
+        var markerLayer = L.layerGroup();
+        markerLayer.addTo(map);
+
+
+
+        var t0 = performance.now()
+        map.removeLayer(markerLayer);
+        var t1 = performance.now();
+        console.log("Call to removeMarkerAtOnce took " + (t1 - t0) + " milliseconds.")
+    };
+
+    var removeEachMarkerSeparately = function(markerData, map) {
+
+        var markerStore = [];
+
+        markerData.forEach(function (data) {
+            markerStore.push(createAndAppendMarkerTo(map, data));
+        })
+
+        var t0 = performance.now()
+        markerStore.forEach(function (marker) {
+            map.removeLayer(marker);
+        });
+        var t1 = performance.now();
+
+        console.log("Call to removeEachMarkerSeparately took " + (t1 - t0) + " milliseconds.")
+    }
+
+
+    var data = createMarkerTestData(10);
+    var map = setupMap('map');
+
+
+    var map2 = setupMap('map2');
+
+
+    removeMarkerAtOnce(data, map);
+
+    removeEachMarkerSeparately(data, map2);
+
+
+</script>
+</body>
+</html>
