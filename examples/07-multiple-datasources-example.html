@@ -14,7 +14,6 @@
     <script src="../bower_components/terraformer/terraformer.min.js"></script>
     <script src="../bower_components/terraformer-wkt-parser/terraformer-wkt-parser.min.js"></script>
 
-
     <script src="../dist/mappify-map.js"></script>
 
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.css" />
@@ -76,6 +75,14 @@
                 return result;
             };
 
+
+             var sparqlServiceA = createSparqlService('http://akswnc3.informatik.uni-leipzig.de/data/dbpedia/sparql', ['http://dbpedia.org']);
+             var sparqlServiceB = createSparqlService('http://linkedgeodata.org/sparql', ['http://linkedgeodata.org']);
+
+             var conceptA = sparql.ConceptUtils.createTypeConcept('http://dbpedia.org/ontology/University');
+             var conceptB = sparql.ConceptUtils.createTypeConcept('http://linkedgeodata.org/ontology/Airport');
+
+
             $scope.config = {
                 viewCenter: {
                     latitude:  51.5286416,
@@ -85,15 +92,9 @@
             };
 
 
-             var sparqlServiceA = createSparqlService('http://akswnc3.informatik.uni-leipzig.de/data/dbpedia/sparql', ['http://dbpedia.org']);
-             var sparqlServiceB = createSparqlService('http://linkedgeodata.org/sparql', ['http://linkedgeodata.org']);
-
-             var conceptA = sparql.ConceptUtils.createTypeConcept('http://dbpedia.org/ontology/University');
-             var conceptB = sparql.ConceptUtils.createTypeConcept('http://linkedgeodata.org/ontology/Airport');
-
-             $scope.datasources = [
+            $scope.datasources = [
                 createMapDataSource(sparqlServiceA, geoMapFactoryVirt, conceptA, '#CC0020'),
-                //createMapDataSource(sparqlServiceB, geoMapFactoryWgs, conceptB, '#2000CC')
+                createMapDataSource(sparqlServiceB, geoMapFactoryWgs, conceptB, '#2000CC')
              ];
 
              console.log($scope.datasources);

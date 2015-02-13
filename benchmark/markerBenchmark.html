@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>benchmark</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+    <script src="../bower_components/chance/chance.js"></script>
+    <script src="../bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../bower_components/benchmark/benchmark.js"></script>
+    <script src="../bower_components/jQuery/dist/jquery.min.js"></script>
+</head>
+
+<body>
+<div id="mapDirect" style="width: 600px; height: 400px;"></div>
+<div id="mapLayer" style="width: 600px; height: 400px;"></div>
+<script>
+    // @see https://github.com/bestiejs/benchmark.js/issues/12
+
+    var mapWithLayer;
+    var mapDirect;
+    var markerStore;
+    var markerLayer;
+
+    var createMarkerTestData = function (numberOfMarkers) {
+        var chance = new Chance();
+
+        return Array.apply(null, new Array(numberOfMarkers)).map(function () {
+            return [chance.latitude(), chance.longitude()];
+        });
+    };
+
+    var createMarkerFormDataAndAppendTo = function (markerDataSet, target) {
+
+        var markers = [];
+        markerDataSet.forEach(function (data) {
+
+            var marker = L.marker(data);
+            marker.addTo(target);
+            markers.push(marker);
+        });
+
+        return markers;
+    };
+
+
+    var suiteTearDown = function () {
+        mapDirect.remove();
+        mapWithLayer.remove();
+    };
+
+    var suiteSetup = function () {
+
+        // prepare the data
+        var testData = createMarkerTestData(10);
+
+        // setup map
+        mapDirect = L.map('mapDirect').setView([0, 0], 1);
+        markerStore = createMarkerFormDataAndAppendTo(testData, mapDirect);
+
+        // setup map
+        mapWithLayer = L.map('mapLayer').setView([0, 0], 1);
+        markerLayer = L.layerGroup();
+        markerLayer.addTo(mapWithLayer);
+        createMarkerFormDataAndAppendTo(testData, markerLayer);
+
+
+    };
+
+
+    var bench = new Benchmark('insertNode',
+            function () {
+                console.log('test');
+
+                mapWithLayer.removeLayer(markerLayer);
+            },{
+                'setup': function () {
+                    console.log('setup');
+                    suiteSetup();
+                },
+                'teardown': function () {
+                    console.log('suiteTearDown');
+                    suiteTearDown();
+                }
+            });
+
+    bench.on('cycle', function(event) {
+        console.log('cycle-setup - ' + Math.random());
+        suiteSetup();
+        console.log('cycle.- suiteTearDown - ' + Math.random());
+        suiteTearDown();
+    });
+
+    bench.on('error', function (event) {
+        console.log(event);
+    });
+
+    bench.on('start', function (event) {
+        console.log('start - ' + Math.random());
+    });
+
+    bench.on('complete', function (event) {
+
+        console.log(bench);
+
+        console.log(String(event.target));
+    })
+
+
+    bench.run({async: true});
+
+    //var suite = new Benchmark.Suite('asdkjs');
+
+    /*
+     suite.add('foo', {
+     // called when the suite starts running
+     'onStart': function() {},
+
+     // called between running benchmarks
+     'onCycle': function() {
+     suiteTearDown()
+     suiteSetup()
+     },
+
+     // called when the suite completes running
+     'onComplete': function() {suiteTearDown()}
+     });
+
+     suite.run();
+     */
+
+    /*
+     suite.add('removeMarkerAtOnce', function () {
+     //console.log('true: ' + mapWithLayer.hasLayer(markerLayer));
+
+     //console.log('false: ' + mapWithLayer.hasLayer(markerLayer));
+     })
+
+     .on('start', function (event) {
+     suiteSetup();
+     console.log('setup');
+     })
+     .on('complete', function (event) {
+     suiteTearDown();
+     console.log('teardown');
+     })
+     .on('onCycle', function (event) {
+     suiteTearDown();
+     console.log('teardown');
+     })
+     .on('error', function (event) {
+     console.log(event);
+     })
+     .run({'async': false});
+     */
+
+
+</script>
+</body>
+</html>

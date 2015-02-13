@@ -1,0 +1,27 @@
+box: leipert/ubuntu14.04-webessentials
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    # A step that executes `npm install` command
+    - npm-install
+    - script:
+        name: Generate dist
+        code: gulp build
+    - script:
+        name: Copy bower.json into dist folder
+        code: cp bower.json dist/
+    - script:
+        name: Delete unneeded stuff
+        code: ls -A | grep -v dist | xargs rm -rf
+
+deploy:
+  steps:
+    - leipert/git-push:
+         gh_token: $GH_TOKEN
+         host: github.com
+         repo: danielkeil/mappify-map
+         branch: dist
+         basedir: dist
+         tag: bower
+         tag_overwrite: true

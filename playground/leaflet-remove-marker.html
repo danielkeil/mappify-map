@@ -10,96 +10,108 @@
 
 
 <body>
-<div id="map" style="width: 100px; min-height: 100px"></div>
-<div id="map2" style="width: 100px; min-height: 100px"></div>
+<div id="map1" style="width: 500px; height: 500px"></div>
+<div id="map2" style="width: 500px; height: 500px"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/0.5.6/chance.js"></script>
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="../bower_components/chance/chance.js"></script>
+<script src="../bower_components/leaflet/dist/leaflet.js"></script>
+<script src="../bower_components/lodash/dist/lodash.min.js"></script>
+
 <script>
 
-    var setupMap = function (domNodeId) {
-        var map = L.map(domNodeId).setView([0, 0], 3);
+    var prototype = {
 
-        L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            id: 'examples.map-i875mjb7'
-        }).addTo(map);
+        mapWithLayer: null,
+        mapDirect: null,
 
-        return map;
-    }
+        setupMap: function (domNodeId) {
+            return L.map(domNodeId).setView([0, 0], 1);
+        },
 
-    var createMarkerTestData = function (numberOfMarkers) {
+        createMarkerTestData: function (numberOfMarkers) {
+            var chance = new Chance();
 
-        var chance = new Chance();
+            return Array.apply(null, new Array(numberOfMarkers)).map(function () {
+                return [chance.latitude(), chance.longitude()];
+            });
 
-        return Array.apply(null, new Array(numberOfMarkers)).map(function () {
-            return [chance.latitude(), chance.longitude()];
-        });
+        },
 
-    }
+        createMarkerFormDataAndAppendTo: function (markerDataSet, target) {
+            var markers = [];
 
+            markerDataSet.forEach(function (data) {
+                var marker = L.marker(data);
+                marker.addTo(target);
+                markers.push(marker);
+            })
 
-    var createMarkerFormDataAndAppendTo = function (target, markerDataSet) {
+            return markers;
+        },
 
-        var markerStore = [];
+        profileRemoveMarkerAtOnce: function (map, markerLayer) {
+            var t0 = performance.now();
+            map.removeLayer(markerLayer);
+            var t1 = performance.now();
 
-        markerDataSet.forEach(function (data) {
-            markerStore.push(createAndAppendMarkerTo(target, data));
-        })
+            return (t1 - t0);
+        },
 
-        return markerStore;
-    }
+        profileRemoveEachMarkerSeparately: function (map, markerStore) {
+            var t0 = performance.now();
+            markerStore.forEach(function (marker) {
+                map.removeLayer(marker);
+            });
+            var t1 = performance.now();
 
+            return (t1 - t0);
+        },
 
+        reset: function() {
+            this.mapDirect.remove();
+            this.mapWithLayer.remove();
+        },
 
-    var removeMarkerAtOnce = function (markerData, map) {
+        run: function (numberOfMarker) {
 
-        var markerStore = [];
+            // setup test data
+            var testData = this.createMarkerTestData(numberOfMarker);
 
-        markerData.forEach(function (data) {
+            // prepare direct map
+            this.mapDirect = this.setupMap('map1');
+            var markerStore = this.createMarkerFormDataAndAppendTo(testData, this.mapDirect);
 
-        })
+            // prepare map with layer
+            this.mapWithLayer = this.setupMap('map2');
+            var markerLayer = L.layerGroup();
+            markerLayer.addTo(this.mapWithLayer);
+            this.createMarkerFormDataAndAppendTo(testData, markerLayer);
 
-        var markerLayer = L.layerGroup();
-        markerLayer.addTo(map);
+            var result = {};
 
+            result.numberOfMarker = numberOfMarker;
+            result.separately = this.profileRemoveEachMarkerSeparately(this.mapDirect, markerStore)
+            result.atOnce = this.profileRemoveMarkerAtOnce(this.mapWithLayer, markerLayer);
 
+            this.reset();
 
-        var t0 = performance.now()
-        map.removeLayer(markerLayer);
-        var t1 = performance.now();
-        console.log("Call to removeMarkerAtOnce took " + (t1 - t0) + " milliseconds.")
+            return result;
+        }
     };
 
-    var removeEachMarkerSeparately = function(markerData, map) {
+    var resultSet = [];
 
-        var markerStore = [];
+    var test = Object.create(prototype);
 
-        markerData.forEach(function (data) {
-            markerStore.push(createAndAppendMarkerTo(map, data));
-        })
+    var steps = _.range(25, 2025, 25);
 
-        var t0 = performance.now()
-        markerStore.forEach(function (marker) {
-            map.removeLayer(marker);
-        });
-        var t1 = performance.now();
+    _.forEach(steps, function(numberOfMarker) {
+        resultSet.push(test.run(numberOfMarker));
+    });
 
-        console.log("Call to removeEachMarkerSeparately took " + (t1 - t0) + " milliseconds.")
-    }
-
-
-    var data = createMarkerTestData(10);
-    var map = setupMap('map');
-
-
-    var map2 = setupMap('map2');
-
-
-    removeMarkerAtOnce(data, map);
-
-    removeEachMarkerSeparately(data, map2);
-
+    _.forEach(resultSet, function(element) {
+        console.log(element);
+    });
 
 </script>
 </body>

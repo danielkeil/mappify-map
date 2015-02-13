@@ -9,7 +9,6 @@
         ])
         .controller('MappifyController', MappifyController);
 
-
     function MappifyController($scope, $timeout, $q, $rootScope, $http, $compile, $log, MarkerGeneratorService, mappifyConfiguration, ElementService, DataService) {
 
         var ctrl = this;
@@ -231,10 +230,6 @@
 
         }
 
-        function updateBoundingBox(bounds) {
-
-            var x = new jassa.geo.Bounds(bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth());
-        }
 
         function handleBoxSelectEvent(event) {
             var bounds = new L.LatLngBounds(
