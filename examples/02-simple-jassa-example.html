@@ -33,6 +33,34 @@
             };
         }
 
+        var sponateMapping = {
+            name: 'classes',
+            template: [
+                {
+                    id: '?r',
+                    name: {$ref: {target: mappedConcept, attr: 'displayLabel'}},
+                    //   abstract: { $ref: { target: commentTemplate, attr: 'displayLabel' }},
+                    latitude: '?lat',
+                    longitude: '?long',
+                    pic: '?d'
+                }
+            ],
+            from: '?r a dbpedia-owl:Museum .' +
+            '?r geo:long ?long .' +
+            '?r geo:lat ?lat .' +
+            'OPTIONAL { ?r foaf:depiction ?d }'
+        };
+
+        function addMappingToStore(store) {
+            if (! store.hasOwnProperty('classes')) {
+                store.addMap(sponateMapping);
+            }
+
+            return store;
+        }
+
+        var langPreference = ['es', 'de', 'en', ''];
+
         function service() {
             var jassa = new Jassa(Promise, $.ajax);
             var sparql = jassa.sparql;
@@ -44,72 +72,24 @@
                     ['http://dbpedia.org']
             );
 
-            var store = new sponate.StoreFacade(sparqlService);
-            var langPreference = ['es', 'de', 'en', ''];
+            createSparqlService();
+            createStore();
+            setupBestLabelConfig();
 
-            var blc = new sparql.BestLabelConfig(langPreference);
-            var mappedConcept = sponate.MappedConceptUtils.createMappedConceptBestLabel(blc);
+            var store = new jassa.sponate.StoreFacade(sparqlService);
 
-            if (!store.hasOwnProperty('classes')) {
+            var blc = new jassa.sparql.BestLabelConfig(langPreference);
+            var mappedConcept = jassa.sponate.MappedConceptUtils.createMappedConceptBestLabel(blc);
 
-                var map4Store = {
-                    name: 'classes',
-                    template: [
-                        {
-                            id: '?r',
-                            name: {$ref: {target: mappedConcept, attr: 'displayLabel'}},
-                            //   abstract: { $ref: { target: commentTemplate, attr: 'displayLabel' }},
-                            latitude: '?lat',
-                            longitude: '?long',
-                            pic: '?d'
-                        }
-                    ],
-                    from: '?r a dbpedia-owl:Museum .' +
-                    '?r geo:long ?long .' +
-                    '?r geo:lat ?lat .' +
-                    'OPTIONAL { ?r foaf:depiction ?d }'
-                };
-
-                store.addMap(map4Store);
-            }
 
             var factory = {};
             factory.getCastles = function (limit) {
 
-                // @check
                 var flow = store.classes.find().limit(limit);
-
-                // classes => mongo collection
-                // getListService -> returns an list
-                // -> deco pattern / get native listService
-
-                //
-                // jassa.sparql.ConceptUtils.createCombinedConcept(conecptA, conecptB);
-                // or
-                // jassa.service.LookupServiceListServiceSparql(); <- param: set of ids
-                //   - listService has not sort
-                //   - 
-
-                store.classes.getListService().fetchItems(null, limit);
-
 
                 //returns a promise
                 return flow.list().then(function (data) {
-                    // http://lodash.com/docs#pluck, extracts values from return
-
-                    // todo: rename from concept => source_id
-                    //  - array of sources
-                    //  - concept => sourceId
-                    return [{
-                        concept: 'conceptA',
-                        markers: _(data).pluck('val').first(50).value()
-                    }, {
-                        concept: 'conceptB',
-                        markers: _(data).pluck('val').rest(50).first(25).value()
-                    }, {
-                        concept: 'conceptC',
-                        markers: _(data).pluck('val').rest(50).rest(25).value()
-                    }];
+                    return data;
                 });
             };
 
@@ -119,10 +99,6 @@
     </script>
 </head>
 <body ng-controller="DemoController">
-<mappify id="map" datasource="datasource">
-    <mappify-marker concept="conceptA" template-url="./template/example.tpl.html"></mappify-marker>
-    <mappify-marker concept="conceptB" template-url="./template/example.tpl.html"></mappify-marker>
-    <mappify-marker concept="conceptC" template-url="./template/example.tpl.html"></mappify-marker>
-</mappify>
+
 </body>
 </html>

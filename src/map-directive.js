@@ -1,10 +1,16 @@
 (function () {
     'use strict';
 
-    angular.module('mappify.directive', ['mappify.configurationProvider', 'mappify.ctrl', 'mappify.jsonBoxDirective'])
+    var debugMessagePrefix = 'mappify-directive:';
+
+    angular.module('mappify.directive', [
+            'mappify.configurationProvider',
+            'mappify.ctrl',
+            'mappify.jsonBoxDirective'
+        ])
         .directive('mappify', mappify);
 
-    function mappify($timeout, $log, mappifyConfiguration) {
+    function mappify($log, mappifyConfiguration) {
         return {
             restrict: 'E',
             scope: {
@@ -17,22 +23,20 @@
 
             link: {
                 pre: function (scope, elem, attrs, controller) {
-                    log('pre link');
+                    $log.debug(debugMessagePrefix + 'pre link');
                     populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config);
                     handleLayerConfiguration(scope, controller);
                     applyConfigToController(mappifyConfiguration, controller);
 
-                    // todo move to separate method
                     scope.$watch('config', function() {
-                            populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config)
-                            applyConfigToController(mappifyConfiguration, controller);
-                            $log.debug('config - changed')}
+                        populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, scope.config);
+                        applyConfigToController(mappifyConfiguration, controller);
+                        $log.debug(debugMessagePrefix + 'config changed')}
                     );
 
                 },
                 post: function (scope, elem, attrs, controller) {
-                    log('post link');
-
+                    $log.debug(debugMessagePrefix + 'post link');
                     controller.fetchDataFormDataSources(scope);
                 }
             }
@@ -45,7 +49,6 @@
         }
 
         function handleLayerConfiguration(scope, controller) {
-
             if (scope.config && scope.config.layers && scope.config.layers instanceof Array) {
                 _.forEach(scope.config.layers, function (layer) {
                     handleLayerSingleConfiguration(layer, controller)
@@ -72,11 +75,5 @@
         function populateMappifyConfigurationWithPassConfigValues(mappifyConfiguration, config) {
             mappifyConfiguration.init(config);
         }
-
-        function log(message, prefix) {
-            prefix = prefix || 'mappify';
-            $log.debug(prefix + ': ' + message)
-        }
-
     }
 })();

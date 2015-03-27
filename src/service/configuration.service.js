@@ -7,6 +7,7 @@
         .module('mappify.configurationProvider', [])
         .provider('mappifyConfiguration', mappifyConfigurationProvider);
 
+
     function mappifyConfigurationProvider() {
 
         /** functions & values */
@@ -18,12 +19,12 @@
         var zoom = 5;
         var popUpsEnabled = true;
 
-        // todo: move to separate file
         var eventNamePrefix = 'mappify.';
         var events = {
             markerClicked: eventNamePrefix + 'markerClicked',
             selectedMarkerCollectionChanged: eventNamePrefix + 'selectedMarkerCollectionChanged'
         };
+
 
         /**                  **/
         /** public functions **/
@@ -37,6 +38,45 @@
             handleZoomConfiguration(config);
             handleViewCenterConfiguration(config);
             handlePopUpConfiguration(config);
+            handleDefaultMarker(config);
+        };
+
+        // @improvement move to separate service
+        var defaultUnselectedMarker = {};
+        var defaultSelectedMarker   = {};
+
+        var handleDefaultMarker = function(config) {
+
+          if (config.hasOwnProperty('marker')) {
+
+              if (config.marker.hasOwnProperty('unselected')) {
+                  defaultUnselectedMarker = config.marker.unselected;
+              }
+
+              if (config.marker.hasOwnProperty('selected')) {
+                  defaultSelectedMarker = config.marker.selected;
+              }
+          }
+        };
+
+        var containsMarkerIcons = function() {
+            return (! _.empty(defaultUnselectedMarker) || ! _.empty(defaultSelectedMarker));
+        };
+
+        var containsIconForUnSelectedMarker = function() {
+            return (! _.empty(defaultUnselectedMarker));
+        };
+
+        var containsIconForSelectedMarker = function() {
+            return (! _.empty(defaultSelectedMarker));
+        };
+
+        var getIconForUnSelectedMarker = function() {
+            return defaultUnselectedMarker;
+        };
+
+        var getIconForSelectedMarker = function() {
+            return defaultSelectedMarker;
         };
 
         /**
@@ -113,7 +153,12 @@
                 setZoom: setZoom,
                 arePopUpsEnabled: arePopUpsEnabled,
                 setViewCenter: setViewCenter,
-                events: events
+                events: events,
+                containsMarkerIcons: containsMarkerIcons,
+                containsIconForSelectedMarker: containsIconForSelectedMarker,
+                containsIconForUnSelectedMarker: containsIconForUnSelectedMarker,
+                getIconForSelectedMarker: getIconForSelectedMarker,
+                getIconForUnSelectedMarker: getIconForUnSelectedMarker
             };
 
             factory.getView = function () {
@@ -123,6 +168,8 @@
                     zoom: zoom
                 };
             };
+
+
 
             return factory;
         }

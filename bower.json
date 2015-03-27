@@ -6,7 +6,7 @@
   ],
   "description": "map component of mappify",
   "dependencies": {
-    "angular": "~1.3.0",
+    "angular": "~1.3",
     "bluebird": "~2.3.2",
     "components-font-awesome": "~4.2.0",
     "lodash": "~3.1",

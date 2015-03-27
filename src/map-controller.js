@@ -28,26 +28,16 @@
             toggleMarkerMode: toggleMarkerMode
         });
 
-        var markerMode;
-
         var map = null;
-
+        var markerMode = 'select';
         var promises = [];
-
         // collection containing all selected markers. the markers id is used as key
         var selectedMarkerCollection = [];
-
         var markerToIconMap = {};
-
         var conceptIconMapping = {};
-
         var templateHtmlContainer = {};
-
         var mapPromise = $q.defer();
-
         var scope;
-
-        angular.extend(ctrl, {});
 
         initMap();
 
@@ -61,25 +51,22 @@
 
             scope = passedScope;
 
-            // $q.when(bluebirdPromise).then( ... )
-
-            $log.debug('called - MappifyController::fetchDataFormDataSources');
-
             Promise
                 .resolve(isReady())
-                .then(function () {
+                .then(
+                    function () {
+                        // bounding box mapping
+                        // @improve implement an mapBoundMapper or boundsTransFormerService
+                        var mapBounds = ctrl.getMap().getBounds();
+                        var bounds = new jassa.geo.Bounds(mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
 
-                    // bounding box mapping
-                    // should be configurable
-                    // todo implement an mapBoundMapper or boundsTransFormerService
-                    var mapBounds = ctrl.getMap().getBounds();
-                    var bounds = new jassa.geo.Bounds(mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
-
-                    // todo: bounds must be independent from jassa bounds
-
-                    var p =  DataService.fetchDataFormDataSources(map, scope, bounds);
-                    return p;
-                }, function(e) {console.log(e)});
+                        // @improve bounds could be independent from jassa bounds
+                        return DataService.fetchDataFormDataSources(map, scope, bounds);
+                    },
+                    function(e) {
+                        console.log(e)
+                    }
+                );
         }
 
         /** data fetching end **/
@@ -89,15 +76,13 @@
         function setView(view) {
 
             $log.debug('MappifyController: called setView');
-            $log.debug(view);
-
-
             map.setView(view.center, view.zoom);
         }
 
         function configTileLayer() {
             checkPreConditions();
 
+            // @improve support more than tile provider than google maps
             var ggl = new L.Google('ROADMAP');
             map.addLayer(ggl);
         }
@@ -112,8 +97,6 @@
             return ElementService.removeMarkerFromMap(markerId);
         }
 
-
-        // todo: clean up - looks messy
         function renderPopUpContent(concept, elementData) {
 
             checkConceptTemplateExistence(concept);
@@ -152,7 +135,6 @@
         function setPopUpTemplate(concept, html) {
             templateHtmlContainer[concept] = html;
         }
-
 
         function toggleMarkerMode() {
             markerMode = (markerMode === 'popup') ? 'select' : 'popup';
@@ -220,14 +202,6 @@
             });
 
             map.on('boxSelect', handleBoxSelectEvent);
-
-            // todo: remove late - testing function
-            function onMapClick(e) {
-                console.log("You clicked the map at " + e.latlng.toString())
-            }
-
-            map.on('click', onMapClick);
-
         }
 
 
@@ -287,22 +261,11 @@
         }
 
         /* jshint ignore:end */
-
         function initMap() {
-            // todo: pass 'map' as param => multiple maps per site
-            map = L.map('map', {drawControl: true});
+            // @improvement pass the map id as param => to support multiple maps per site
+            map = L.map('map');
 
             registerEvents();
-
-            //var modusSelectControl = new L.Control.ModeSelect();
-            //map.addControl(modusSelectControl);
-
-            // init multi select
-            // todo: only enable BoxSelect in mode select
-            //map.boxZoom.disable();
-            //L.BoxSelect(map).enable();
-            //L.BoxDraw(map).enable();
-
 
             mapPromise.resolve(map);
         }

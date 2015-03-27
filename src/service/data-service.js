@@ -4,13 +4,11 @@
     angular.module('mappify.dataService', ['mappify.elementService'])
         .factory('DataService', dataService);
 
-    function dataService($timeout, $log, ElementService) {
+    var logMessagePrefix = 'dataService: ';
 
-        console.log(ElementService);
+    function dataService($log, ElementService) {
 
         var service = this;
-
-        var map;
 
         var setMap = function (map) {
             service.map = map;
@@ -20,8 +18,8 @@
 
             setMap(map);
 
-            if (!scope.hasOwnProperty('datasource')) {
-                throw new Error('no datasource defined');
+            if (! scope.hasOwnProperty('datasource')) {
+                return null;
             }
 
             if (!_.isArray(scope.datasource)) {
@@ -37,14 +35,10 @@
                     var r = singleSource.fetchData(bounds);
                     r = Promise.resolve(r).
                         then(function (data) {
-                            $log.log('data was fetched');
+                            $log.info(logMessagePrefix + 'data was fetched');
+                            data = processFetchedData(data);
 
-                            data = processFetchedDataToMap(data);
-
-
-                            ElementService.removeAllElementsFromMap(service.map);
-
-
+                            // @improvement remove all elements at once by removing the layer
                             _.forEach(data, function (element) {
                                 ElementService.addElementToMap(service.map, element);
                             })
@@ -52,7 +46,7 @@
 
                     return r;
                 }
-            )
+            );
 
             return jassa.util.PromiseUtils.all(map);
         }
@@ -64,17 +58,17 @@
             });
         }
 
-        // todo: better function name
-        function processItem(item) {
+        // @improvement - implement as strategy pattern and inject
+        function processSingleDataSourceElement(element) {
             var data = {};
 
-            if (item.hasOwnProperty('key') && item.key.hasOwnProperty('uri')) {
-                data.id = item.key.uri;
+            if (element.hasOwnProperty('key') && element.key.hasOwnProperty('uri')) {
+                data.id = element.key.uri;
             }
 
-            if (item.hasOwnProperty('val') && item.val.hasOwnProperty('wkt')) {
+            if (element.hasOwnProperty('val') && element.val.hasOwnProperty('wkt')) {
                 // todo: check parsing error case
-                var wktElement = Terraformer.WKT.parse(item.val.wkt);
+                var wktElement = Terraformer.WKT.parse(element.val.wkt);
 
                 if (wktElement.type === 'Point') {
                     data.type = 'Point';
@@ -90,27 +84,20 @@
                 return data;
             }
 
-
-
             return [];
         }
 
         /**
          * @param source
          */
-        function processFetchedDataToMap(source) {
+        function processFetchedData(source) {
 
-            $log.debug('number elements in source:' + source.length);
+            $log.info(logMessagePrefix + 'number elements in source:' + source.length);
 
             var dataSet = [];
 
             _.each(source, function (item) {
-                // todo: clean up zoomClusterBounds -> are handle by  processItem  log('data was fetched');
-                //if (item.val && item.val.hasOwnProperty('zoomClusterBounds')) {
-                //console.log(item);
-                //}
-
-                dataSet.push(processItem(item))
+                dataSet.push(processSingleDataSourceElement(item))
             });
 
             return dataSet;

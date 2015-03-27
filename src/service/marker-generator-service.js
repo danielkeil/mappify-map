@@ -17,7 +17,6 @@
          *    });
          * })
          */
-        // todo: check namespace strategy => should we rename it to mappify.defaultMarkers
         .value('mappifyDefaultMarkers', {
             'custom:leaflet': {
                 options: {
@@ -61,7 +60,6 @@
         }
 
         function generateIconFromObject(icon) {
-
             return L.AwesomeMarkers.icon({
                 prefix: icon.prefix,
                 icon: icon.icon,
@@ -89,7 +87,6 @@
             });
         }
 
-        // todo: check - do we really need this
         function generateCustomMarker(icon) {
             if (!mappifyDefaultMarkers.hasOwnProperty(icon)) {
                 throw 'called icon "' + icon + '" is not defined';
@@ -120,6 +117,7 @@
             }
 
             icons = icons.map(function (icon, idx) {
+
                 // todo move blue and red to config (default)
                 // todo handle case: only one marker provided with color red
                 var markerColor = idx === 0 ? 'blue' : 'red';
