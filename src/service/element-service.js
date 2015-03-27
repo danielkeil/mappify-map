@@ -66,7 +66,6 @@
             var infoSet = [];
 
             if (mappifyConfiguration.containsIconForUnSelectedMarker) {
-
                 infoSet.push(mappifyConfiguration.getIconForUnSelectedMarker());
             }
 

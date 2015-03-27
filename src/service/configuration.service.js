@@ -47,16 +47,18 @@
 
         var handleDefaultMarker = function(config) {
 
-          if (config.hasOwnProperty('marker')) {
+            if (config.hasOwnProperty('marker') && ! _.isEmpty(config.marker)) {
 
-              if (config.marker.hasOwnProperty('unselected')) {
-                  defaultUnselectedMarker = config.marker.unselected;
-              }
+                var markerConfig = config.marker;
 
-              if (config.marker.hasOwnProperty('selected')) {
-                  defaultSelectedMarker = config.marker.selected;
-              }
-          }
+                if (markerConfig.hasOwnProperty('unselected')) {
+                    defaultUnselectedMarker = config.marker.unselected;
+                }
+
+                if (markerConfig.hasOwnProperty('selected')) {
+                    defaultSelectedMarker = config.marker.selected;
+                }
+            }
         };
 
         var containsMarkerIcons = function() {
