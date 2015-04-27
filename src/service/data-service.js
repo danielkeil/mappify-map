@@ -19,6 +19,7 @@
             setMap(map);
 
             if (! scope.hasOwnProperty('datasource')) {
+                // @improvement return promise
                 return null;
             }
 

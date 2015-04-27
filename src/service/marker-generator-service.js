@@ -30,7 +30,6 @@
                 }
             }
         })
-
         .factory('MarkerGeneratorService', markerGeneratorService);
 
     // todo: add iconColor
@@ -92,9 +91,9 @@
                 throw 'called icon "' + icon + '" is not defined';
             }
 
-            var Marker = L.Icon.extend(mappifyDefaultMarkers[icon]);
+            var Icon = L.Icon.extend(mappifyDefaultMarkers[icon]);
 
-            return new Marker();
+            return new Icon();
         }
 
         /**
